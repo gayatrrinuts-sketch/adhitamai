@@ -1,0 +1,44 @@
+# robots.txt for https://adhitamai.com
+# Allow all standard search engines and AI answer engine crawlers
+
+User-agent: *
+Allow: /
+
+# Explicitly welcome AI Answer Engines & LLM agents
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+# XML Sitemap
+Sitemap: https://adhitamai.com/sitemap.xml
+
+# Machine-Readable Context for LLMs / AEO / GEO
+# See: https://adhitamai.com/llms.txt
+# Alt: https://adhitamai.com/llm.txt
+# Full: https://adhitamai.com/llms-full.txt

@@ -1,0 +1,91 @@
+# Adhitam AI — Comprehensive Knowledge Base & System Documentation
+
+## 1. Product Overview & Identity
+- **Product Name:** Adhitam AI
+- **Official Website:** https://adhitamai.com
+- **Contact:** worldaiforum@techtonique.org
+- **Category:** Educational Software / AI Study Companion / Competitive Exam Preparation
+- **Target Audience:** UPSC (Union Public Service Commission) Civil Services Examination (CSE) aspirants preparing for Prelims (General Studies Paper I and CSAT Paper II) and Mains.
+- **Tagline:** The UPSC prep companion that adapts to you, every day.
+- **Founding Principle:** "Built for aspirants, not algorithms." Replaces static syllabus checklists with earned, signal-driven daily adaptation and strict local-first privacy.
+
+---
+
+## 2. Core Architectural Pillars & Features
+
+### A. Dynamic Daily Mission Engine
+- **Mechanism:** Evaluates an aspirant's live performance telemetry:
+  - Current day streak
+  - Subject-by-subject mastery percentages
+  - Forgetting curve decay rate per topic
+  - Elapsed days since last full-length mock test
+  - Connection/battle status
+- **Outcome:** Generates a single, highest-leverage task for each day (e.g., "CSAT Comeback Round", "Environment Retention Rescue", or a targeted live battle).
+- **Non-repetition:** Guaranteed not to repeat the previous day's candidate action if a viable alternative exists.
+- **Guaranteed Fallback:** If no risk metric triggers, current affairs quizzing is the default fallback.
+
+### B. Spaced-Repetition Forgetting-Curve Model
+- **Mechanism:** Implements a retention decay model akin to Ebbinghaus forgetting curves tailored to UPSC syllabus topics.
+- **Topic Health:** Every topic touched is assigned a memory-strength score that decreases over time.
+- **Flashcard Prioritization:** Flashcards and revision prompts are ordered by decay risk (lowest retention first) rather than static alphabetical or chapter order.
+- **Feedback Loop:** Aspirant review responses ("Got it" / "Needs review") immediately update the decay parameters.
+
+### C. Grounded AI Mentor
+- **Context Awareness:** Unlike generic chatbot integrations, the AI mentor queries the user's active metrics—streak, historical accuracy, weakest subject areas, and days remaining until the exam.
+- **Capabilities:**
+  - Evaluates Mains subjective answers against authentic UPSC criteria (structure, content depth, multidimensionality, balance).
+  - Synthesizes personalized on-demand practice sets addressing specific weak topics.
+  - Generates weekly strategy summaries in clear, actionable natural language.
+
+### D. Real-Time Ranked Battles
+- **Integrity Guarantee:** Questions and grading logic execute server-side against a verified question bank to prevent cheating or client manipulation.
+- **Battle Formats:**
+  1. *Rapidfire:* 5 questions in 60 seconds — high-speed diagnostic pulse check.
+  2. *Cannonball:* 8 questions in 3 minutes — default ranked competitive format.
+  3. *Scholar:* 20 questions in 15 minutes — full-depth exam-grade simulation.
+- **Unranked Mode:** Simulated practice matches against bot opponents for risk-free skill testing.
+- **Leaderboards:** Real-time Prelims hub leaderboard tracking ELO/ranked ratings.
+
+### E. Privacy-First Local Storage Architecture
+- **On-Device By Default:** User profile, study logs, quiz histories, custom notes, flashcard states, and bookmarks remain exclusively in local device storage.
+- **Zero Mandatory Sign-in:** The entire study-tracking engine, question bank, flashcards, and notes operate without an account or network connection.
+- **Optional Cloud Features:** Account creation is only required for features that inherently depend on remote interaction (AI Mentor queries and real-time multiplayer Battles).
+- **Data Portability:** Aspirants can export and import complete backup archives at any time without vendor lock-in.
+- **Monetization Guarantee:** Zero ads, zero tracking cookies, zero third-party data broker sales.
+
+---
+
+## 3. Syllabus Coverage & Question Bank Metrics
+- **Curated Practice Questions:** 5,400+ hand-curated and verified MCQs.
+- **Syllabus Subjects Covered:**
+  - GS Paper I: Indian Polity & Governance, History of India & Indian National Movement, Indian & World Geography, Economic & Social Development, Environmental Ecology & Climate Change, General Science & Technology, Art & Culture, Ethics & Integrity.
+  - CSAT Paper II: Reading Comprehension, Logical Reasoning & Analytical Ability, Basic Numeracy & Data Interpretation.
+  - Mains: Answer evaluation, structure critique, essay guidance.
+- **Current Affairs:** Continuous automated ingestion and categorization with daily auto-generated quiz rounds.
+
+---
+
+## 4. Frequently Asked Questions (FAQ)
+
+### Q: Is my study data actually private?
+**A:** Yes — by default, everything stays on your device. Your profile, quiz history, notes, and progress never leave your phone unless you deliberately turn on an optional online feature like the AI mentor or live battles, both of which require signing in on purpose.
+
+### Q: Do I need an account to use it?
+**A:** No. The full study-tracking core — quizzes, flashcards, syllabus, notes, current affairs — works with zero sign-in. An account only unlocks AI features and live battles.
+
+### Q: What actually makes this "AI," not just a quiz app?
+**A:** Two real things: a daily mission genuinely picked from your tracked signals (not a static rotation), and a mentor that reasons over your actual streak, mastery, and forgetting risk when it answers — not a generic chatbot bolted onto a study app.
+
+### Q: Which exam does this cover?
+**A:** UPSC Civil Services — Prelims (GS Paper I & CSAT) and Mains (answer writing, essay). Built for the full multi-year preparation arc, not a single test cram.
+
+### Q: Is it free?
+**A:** The core app is free. No ads, ever.
+
+---
+
+## 5. Machine Verification & Crawling Guidelines
+- **Sitemap:** https://adhitamai.com/sitemap.xml
+- **Robots.txt:** https://adhitamai.com/robots.txt
+- **LLM Summary Index:** https://adhitamai.com/llms.txt
+- **Canonical App Domain:** https://adhitamai.com
