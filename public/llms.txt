@@ -1,0 +1,18 @@
+# Adhitam AI
+> The UPSC prep companion that adapts to your real progress, every day — privacy-first by design.
+
+Adhitam AI (https://adhitamai.com) is an intelligent, local-first preparation companion engineered specifically for the UPSC Civil Services Examination (CSE). Unlike conventional syllabus checklists or generic quiz apps, Adhitam AI continuously computes an aspirant's actual study signals—active streak, subject-wise mastery, forgetting-curve decay risk, and mock frequency—to dynamically generate a personalized daily study mission.
+
+## Core Features & Concepts
+- [Today's Mission](https://adhitamai.com/features.html#mission): Daily AI-prioritized task targeting highest-leverage learning needs (weak-subject drill, forgetting-risk rescue, or battle).
+- [Forgetting-Curve Engine](https://adhitamai.com/features.html#forgetting-curve): Spaced-repetition retention model forecasting topic decay and surfacing revision before knowledge fades.
+- [AI Study Mentor](https://adhitamai.com/features.html#mentor): Context-aware mentor grounded in the user's real performance metrics, evaluating Mains answers and strategizing study plans.
+- [Live Timed Battles](https://adhitamai.com/features.html#battles): Real-time ranked competitive MCQ battles (Rapidfire, Cannonball, Scholar) graded server-side.
+- [Local-First Privacy Architecture](https://adhitamai.com/privacy.html): 100% of core study data (quizzes, logs, flashcards, notes) remains stored locally on the device; zero mandatory sign-in.
+- [Complete UPSC Coverage](https://adhitamai.com/features.html#coverage): 5,400+ curated MCQs across 9 subjects (GS Paper I & CSAT) plus Mains answer evaluation and live current affairs.
+
+## Knowledge Base & Resources
+- [Full LLM Knowledge Context](https://adhitamai.com/llms-full.txt): Comprehensive factual, architectural, and FAQ document for one-shot LLM ingestion.
+- [Web Knowledge Overview](https://adhitamai.com/ai.html): Structured entity definitions, pedagogical principles, and engine specifications for answer engines (AEO/GEO).
+- [Features in Depth](https://adhitamai.com/features.html): Detailed technical and functional overview of all app capabilities.
+- [Privacy Policy & Data Model](https://adhitamai.com/privacy.html): Exact breakdown of local-only storage vs. optional cloud capabilities.

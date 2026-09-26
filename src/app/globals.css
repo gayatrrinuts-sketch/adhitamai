@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --ink: #1E1B16;
+    --ink-dark: #121016;
+    --brass: #C9A227;
+    --brass-dark: #A9821E;
+    --brass-muted: #D8BE6E;
+    --bg-warm: #F5F1E8;
+    --surface-warm: #FBF8F2;
+    --border-warm: #E4DCC8;
+    --hairline: #DCD2B8;
+  }
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* Subtle glow effects */
+.brass-glow {
+  box-shadow: 0 0 50px -10px rgba(201, 162, 39, 0.18);
+}
+
+.brass-border-glow {
+  border-color: rgba(201, 162, 39, 0.35);
+  box-shadow: 0 0 25px -5px rgba(201, 162, 39, 0.15);
+}
+
+/* Texture overlay for architectural dark backgrounds */
+.heritage-pattern {
+  background-image: radial-gradient(rgba(201, 162, 39, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Text balance and anti-slop typography rules */
+h1, h2, h3, h4 {
+  font-family: var(--font-serif), Georgia, serif;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
