@@ -5,7 +5,7 @@ import { ArrowDown } from "lucide-react";
 
 export default function StudyPlan() {
   return (
-    <section className="py-24 bg-[#121016] text-[#FAF7F2] relative overflow-hidden border-b border-[#FAF7F2]/10">
+    <section className="py-16 sm:py-24 bg-[#121016] text-[#FAF7F2] relative overflow-hidden border-b border-[#FAF7F2]/10">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left Text Column */}
@@ -14,13 +14,32 @@ export default function StudyPlan() {
               YOUR PERSONAL UPSC MENTOR
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-[#FAF7F2] leading-tight mb-5">
-              A study plan that <br />
-              understands you.
+              Your daily UPSC study plan, <br />
+              set for you.
             </h2>
-            <p className="text-[#FAF7F2]/75 text-[14px] sm:text-[15px] leading-relaxed mb-7 max-w-md">
-              Adhitam AI analyses your goals, current level, and learning style to create a structured,
-              personalized study plan. You get the right content, in the right order, at the right time.
+            <p className="text-[#FAF7F2]/75 text-[14px] sm:text-[15.5px] leading-relaxed mb-6 max-w-md">
+              Tell us your attempt year, optional subject, and hours per day. Adhitam AI builds a daily mission: fresh GS topics, revision due today, and PYQs to practice. No more deciding what to study.
             </p>
+
+            {/* Feature Points from Brief */}
+            <div className="space-y-2 mb-7 text-xs text-[#FAF7F2]/80">
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C9A227]" />
+                <span>Daily structured study missions</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C9A227]" />
+                <span>Fresh topic progression mapped to syllabus</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C9A227]" />
+                <span>Revision due today based on forgetting curve</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C9A227]" />
+                <span>Integrated PYQ practice</span>
+              </div>
+            </div>
             <a
               href="#download"
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-[#C9A227] text-[#121016] text-xs font-bold tracking-wide shadow-md hover:bg-[#D8BE6E] active:scale-95 transition-all"
@@ -37,7 +56,7 @@ export default function StudyPlan() {
               <div className="absolute -left-2 sm:left-4 top-10 w-[200px] sm:w-[240px] aspect-[9/18.5] rounded-[32px] overflow-hidden shadow-2xl -rotate-6 z-10 opacity-80 hover:opacity-100 hover:z-30 transition-all duration-300">
                 <Image
                   src="/prelims.png"
-                  alt="Adhitam AI Prelims Practice Screen"
+                  alt="UPSC Prelims MCQ practice screen in Adhitam AI"
                   fill
                   sizes="(max-width: 640px) 200px, 240px"
                   className="object-cover object-top"
@@ -48,7 +67,7 @@ export default function StudyPlan() {
               <div className="relative w-[240px] sm:w-[280px] aspect-[9/18.5] rounded-[36px] overflow-hidden shadow-2xl z-20 hover:scale-105 transition-transform duration-300">
                 <Image
                   src="/home.png"
-                  alt="Adhitam AI Main Study Plan Interface"
+                  alt="Adhitam AI UPSC daily study plan on mobile"
                   fill
                   sizes="(max-width: 640px) 240px, 280px"
                   className="object-cover object-top"
@@ -60,7 +79,7 @@ export default function StudyPlan() {
               <div className="absolute -right-2 sm:right-4 top-10 w-[200px] sm:w-[240px] aspect-[9/18.5] rounded-[32px] overflow-hidden shadow-2xl rotate-6 z-10 opacity-80 hover:opacity-100 hover:z-30 transition-all duration-300">
                 <Image
                   src="/mains.png"
-                  alt="Adhitam AI Mains Evaluation Screen"
+                  alt="UPSC Mains answer writing screen in Adhitam AI"
                   fill
                   sizes="(max-width: 640px) 200px, 240px"
                   className="object-cover object-top"

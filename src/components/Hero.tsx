@@ -7,12 +7,12 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#121016] text-[#FAF7F2] pt-24 pb-20"
+      className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-[#121016] text-[#FAF7F2] py-20 sm:py-24"
     >
-      {/* Background Architectural Atmosphere: Visible monument with subtle overlay */}
+      {/* Background Architectural Atmosphere: Visible monument with full-bleed cover */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-70 filter contrast-110 brightness-100"
+          className="absolute inset-0 bg-cover bg-center opacity-70 filter contrast-110 brightness-100 scale-105"
           style={{ backgroundImage: "url('/assets/delhi-monument.jpg')" }}
         />
         {/* Soft gradient overlay allowing monument to be clearly visible */}
@@ -20,7 +20,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-t from-[#121016] via-transparent to-[#121016]/40" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
         {/* Left Column: Headline and Copy */}
         <div className="lg:col-span-7 flex flex-col items-start text-left">
           {/* Eyebrow */}
@@ -29,17 +29,22 @@ export default function Hero() {
           </div>
 
           {/* Headline */}
-          <h1 className="font-serif text-4xl sm:text-5xl lg:text-[62px] leading-[1.1] font-semibold tracking-tight mb-5 text-[#FAF7F2] drop-shadow-md">
-            A deeper way <br />
-            to prepare for a <br />
-            <span className="text-[#C9A227]">higher purpose.</span>
+          <h1 className="font-serif text-4xl sm:text-5xl lg:text-[60px] leading-[1.1] font-semibold tracking-tight mb-5 text-[#FAF7F2] drop-shadow-md">
+            A deeper way to prepare for UPSC, <br />
+            <span className="text-[#C9A227]">built for a higher purpose.</span>
           </h1>
 
           {/* Description */}
-          <p className="text-[14px] sm:text-[15px] text-[#FAF7F2]/85 max-w-lg leading-relaxed mb-7 font-normal drop-shadow-sm">
-            Adhitam AI is a personalised learning system for UPSC aspirants that helps you understand
-            what to study, when to study it, and how to improve &mdash; with clarity and structure.
+          <p className="text-[14px] sm:text-[16px] text-[#FAF7F2]/85 max-w-lg leading-relaxed mb-6 font-normal drop-shadow-sm">
+            Adhitam AI is a UPSC Civil Services prep companion that plans your day, tracks what you&apos;re forgetting, and evaluates your Mains answers. Built around the real syllabus, not generic content.
           </p>
+
+          {/* Value Micro-Points */}
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-7 text-xs font-semibold text-[#D8BE6E]">
+            <span>• Daily missions</span>
+            <span>• Spaced revision</span>
+            <span>• Prelims &amp; Mains practice</span>
+          </div>
 
           {/* Buttons Row */}
           <div className="flex flex-wrap items-center gap-4">
@@ -70,13 +75,13 @@ export default function Hero() {
             </blockquote>
           </div>
 
-          {/* Hero Phone Mockup with NO outer outline / stroke */}
-          <div className="relative w-[280px] sm:w-[315px] aspect-[9/18.5] rounded-[38px] overflow-hidden shadow-2xl">
+          {/* Hero Phone Mockup: Fitted to exact aspect ratio and generously sized */}
+          <div className="relative w-[290px] sm:w-[330px] md:w-[350px] aspect-[852/1846] rounded-[38px] overflow-hidden shadow-2xl">
             <Image
               src="/home.png"
-              alt="Adhitam AI Mobile App Interface"
+              alt="Adhitam AI UPSC daily study plan on mobile"
               fill
-              sizes="(max-width: 640px) 280px, 315px"
+              sizes="(max-width: 640px) 290px, (max-width: 768px) 330px, 350px"
               className="object-cover object-top"
               priority
             />

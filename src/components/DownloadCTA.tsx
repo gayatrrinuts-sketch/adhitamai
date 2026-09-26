@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function DownloadCTA() {
   return (
-    <section id="download" className="relative py-20 bg-[#F5F1E8] border-b border-[#E4DCC8] text-[#1E1B16] overflow-hidden">
+    <section id="download" className="relative w-full py-12 sm:py-16 bg-[#F5F1E8] text-[#1E1B16] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left Column: Heading and App Store Badges */}

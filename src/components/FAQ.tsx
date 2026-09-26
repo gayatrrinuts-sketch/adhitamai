@@ -5,24 +5,24 @@ import { Plus, Minus } from "lucide-react";
 
 const faqs = [
   {
-    q: "Is my study data actually private?",
-    a: "Yes — by default, everything stays on your device. Your study progress, quiz history, notes, and metrics remain local on your device.",
+    q: "Is Adhitam AI good for UPSC self-study?",
+    a: "Yes. Adhitam AI is engineered specifically for self-directed aspirants who need structure. It eliminates planning fatigue by breaking down the standard UPSC syllabus into daily missions, targeted revisions, and syllabus-linked practice.",
   },
   {
-    q: "Do I need an account to use it?",
-    a: "No. The full core study-tracking experience — quizzes, syllabus progress, notes, and current affairs review — works with zero mandatory sign-in.",
+    q: "Can I prepare for UPSC while working?",
+    a: "Absolutely. You can set your available daily study hours, and Adhitam AI dynamically prioritizes high-yield topics and revision due today, ensuring your limited study time is spent with maximum retention and zero guesswork.",
   },
   {
-    q: "What actually makes this an adaptive study system?",
-    a: "Adhitam AI monitors what you actively complete — questions attempted, subjects revised, and syllabus topics overdue according to retention curves — and dynamically builds your daily priority missions.",
+    q: "Does Adhitam AI cover both Prelims and Mains?",
+    a: "Yes. The curriculum covers General Studies across Prelims (GS Paper I & CSAT) and Mains (GS Papers I–IV, Essay, and Ethics), linking static textbook concepts directly with answer writing and PYQ practice.",
   },
   {
-    q: "Which exam does this cover?",
-    a: "UPSC Civil Services Examination — covering General Studies Prelims (GS Paper I & CSAT) and Mains curriculum with static topic linkages.",
+    q: "How does spaced repetition help in UPSC?",
+    a: "The UPSC syllabus is vast, and aspirants often forget older topics. Spaced repetition models your retention curve and schedules timely review of previously covered topics before they fade from memory, converting short-term recall into lasting exam-day mastery.",
   },
   {
-    q: "Is it free to start?",
-    a: "Yes, the core app and daily study missions are free. No distracting third-party advertisements, ever.",
+    q: "Is Adhitam AI free?",
+    a: "Yes, you can download Adhitam AI and start using the core study planner, daily missions, and syllabus progress tracking. There are no intrusive third-party banner ads.",
   },
 ];
 
@@ -34,7 +34,7 @@ export default function FAQ() {
   };
 
   return (
-    <section id="faq" className="py-24 bg-[#F5F1E8] border-b border-[#E4DCC8] text-[#1E1B16]">
+    <section id="faq" className="py-16 sm:py-24 bg-[#F5F1E8] border-b border-[#E4DCC8] text-[#1E1B16]">
       <div className="max-w-4xl mx-auto px-6">
         <div className="text-center max-w-xl mx-auto mb-16">
           <span className="text-xs uppercase tracking-[0.2em] font-semibold text-[#A9821E] block mb-3">

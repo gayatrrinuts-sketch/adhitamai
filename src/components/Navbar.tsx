@@ -44,7 +44,7 @@ export default function Navbar() {
             />
           </div>
           <span className="font-serif text-xl sm:text-2xl font-bold tracking-tight text-[#FAF7F2] group-hover:text-[#D8BE6E] transition-colors">
-            Adhitam <span className="font-sans font-medium text-lg sm:text-xl text-[#FAF7F2]">Ai</span>
+            Adhitam <span className="font-sans font-medium text-lg sm:text-xl text-[#FAF7F2]">AI</span>
           </span>
         </Link>
 
@@ -105,6 +105,9 @@ export default function Navbar() {
           </Link>
           <Link href="#approach" onClick={() => setMobileMenuOpen(false)} className="hover:text-[#D8BE6E]">
             Approach
+          </Link>
+          <Link href="/blog" className="hover:text-[#D8BE6E] transition-colors">
+            Blogs
           </Link>
           <Link href="#faq" onClick={() => setMobileMenuOpen(false)} className="hover:text-[#D8BE6E]">
             FAQ

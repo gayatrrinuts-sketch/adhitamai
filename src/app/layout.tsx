@@ -17,33 +17,30 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Adhitam AI — Private, Adaptive UPSC Preparation Companion",
+  title: "Adhitam AI: UPSC Preparation App with AI Mentor & Daily Study Plan",
   description:
-    "Adhitam AI is an adaptive, privacy-first UPSC Civil Services preparation companion. Features personalized daily missions, spaced-repetition forgetting curves, Prelims & Mains curriculum coverage, and local-first data privacy.",
+    "Adaptive UPSC preparation app for Prelims & Mains. Daily study plan, revision reminders, PYQs, mock tests, current affairs and AI doubt solving.",
   applicationName: "Adhitam AI",
   authors: [{ name: "Uniworld AI Forum", url: "https://adhitamai.com" }],
   creator: "Uniworld AI Forum",
   publisher: "Adhitam AI",
   keywords: [
-    "Adhitam AI",
-    "UPSC Preparation App",
+    "UPSC preparation app",
+    "UPSC AI mentor",
+    "IAS preparation app",
+    "UPSC study planner",
+    "UPSC Prelims and Mains preparation",
     "UPSC Civil Services",
-    "UPSC Prelims",
-    "UPSC Mains",
-    "Adaptive Learning UPSC",
-    "UPSC AI Mentor",
-    "Forgetting Curve Study",
-    "Private UPSC App",
-    "Civil Services Exam India",
+    "Adhitam AI",
   ],
   metadataBase: new URL("https://adhitamai.com"),
   alternates: {
     canonical: "https://adhitamai.com",
   },
   openGraph: {
-    title: "Adhitam AI — The UPSC Prep Companion That Adapts to You",
+    title: "Adhitam AI: UPSC Preparation App with AI Mentor & Daily Study Plan",
     description:
-      "A deeper way to prepare for a higher purpose. Adaptive study sequencing, real retention curves, and structured AI doubt-solving for UPSC civil services aspirants.",
+      "Adaptive UPSC preparation app for Prelims & Mains. Daily study plan, revision reminders, PYQs, mock tests, current affairs and AI doubt solving.",
     url: "https://adhitamai.com",
     siteName: "Adhitam AI",
     images: [
@@ -59,9 +56,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Adhitam AI — Private, Adaptive UPSC Preparation Companion",
+    title: "Adhitam AI: UPSC Preparation App with AI Mentor & Daily Study Plan",
     description:
-      "A deeper way to prepare for a higher purpose. Personalised daily missions and forgetting curve models built around your real progress.",
+      "Adaptive UPSC preparation app for Prelims & Mains. Daily study plan, revision reminders, PYQs, mock tests, current affairs and AI doubt solving.",
     images: ["/assets/logo-1024.png"],
   },
   icons: {
@@ -107,12 +104,12 @@ const jsonLd = {
       }
     },
     {
-      "@type": "SoftwareApplication",
+      "@type": "MobileApplication",
       "@id": "https://adhitamai.com/#app",
       "name": "Adhitam AI",
       "applicationCategory": "EducationalApplication",
       "operatingSystem": "iOS, Android",
-      "description": "Adaptive, privacy-first UPSC preparation companion that reads your real study signals and models forgetting curves to plan daily study missions.",
+      "description": "Adaptive UPSC preparation mobile app with daily study plan, spaced revision, PYQs, mock tests, current affairs and AI doubt solving.",
       "offers": {
         "@type": "Offer",
         "price": "0",
@@ -127,7 +124,7 @@ const jsonLd = {
       "@id": "https://adhitamai.com/#website",
       "url": "https://adhitamai.com",
       "name": "Adhitam AI",
-      "description": "A deeper way to prepare for a higher purpose.",
+      "description": "A deeper way to prepare for UPSC, built for a higher purpose.",
       "publisher": {
         "@id": "https://adhitamai.com/#organization"
       }
@@ -138,34 +135,42 @@ const jsonLd = {
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "Is my study data actually private?",
+          "name": "Is Adhitam AI good for UPSC self-study?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes — by default, 100% of your study data stays on your device. Your profile, quiz logs, notes, and progress never leave your phone unless you choose to turn on an optional online feature."
+            "text": "Yes. Adhitam AI is engineered specifically for self-directed aspirants who need structure. It eliminates planning fatigue by breaking down the standard UPSC syllabus into daily missions, targeted revisions, and syllabus-linked practice."
           }
         },
         {
           "@type": "Question",
-          "name": "Do I need an account to use Adhitam AI?",
+          "name": "Can I prepare for UPSC while working?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. The full core study-tracking experience — quizzes, syllabus progress, flashcards, notes, and current affairs review — works with zero mandatory sign-in."
+            "text": "Absolutely. You can set your available daily study hours, and Adhitam AI dynamically prioritizes high-yield topics and revision due today, ensuring your limited study time is spent with maximum retention and zero guesswork."
           }
         },
         {
           "@type": "Question",
-          "name": "What makes Adhitam AI an adaptive learning system?",
+          "name": "Does Adhitam AI cover both Prelims and Mains?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Adhitam AI analyzes active study signals — streak, subject mastery, forgetting curve decay, and mock frequency — to dynamically assign prioritized daily study missions rather than static checklists."
+            "text": "Yes. The curriculum covers General Studies across Prelims (GS Paper I & CSAT) and Mains (GS Papers I–IV, Essay, and Ethics), linking static textbook concepts directly with answer writing and PYQ practice."
           }
         },
         {
           "@type": "Question",
-          "name": "Which exam does Adhitam AI cover?",
+          "name": "How does spaced repetition help in UPSC?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "UPSC Civil Services Examination (CSE) — covering General Studies Prelims (Paper I & CSAT) and Mains curriculum with static topic linkages."
+            "text": "The UPSC syllabus is vast, and aspirants often forget older topics. Spaced repetition models your retention curve and schedules timely review of previously covered topics before they fade from memory, converting short-term recall into lasting exam-day mastery."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Adhitam AI free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, you can download Adhitam AI and start using the core study planner, daily missions, and syllabus progress tracking. There are no intrusive third-party banner ads."
           }
         }
       ]

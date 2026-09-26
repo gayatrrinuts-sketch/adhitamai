@@ -107,7 +107,7 @@ export default function ArticleClient({ post, related }: Props) {
               />
             </div>
             <span className="font-serif text-xl font-bold tracking-tight text-[#1E1B16]">
-              Adhitam <span className="font-sans font-medium text-lg text-[#1E1B16]">Ai</span>
+              Adhitam <span className="font-sans font-medium text-lg text-[#1E1B16]">AI</span>
             </span>
           </Link>
 

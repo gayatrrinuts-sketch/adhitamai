@@ -8,54 +8,69 @@ export default function CurrentAffairs() {
           {/* Left Column: Heading, Pillars, and Link */}
           <div className="lg:col-span-6 flex flex-col items-start">
             <span className="text-[11px] uppercase tracking-[0.2em] font-semibold text-[#8C8371] block mb-2.5">
-              STAY UPDATED
+              CURRENT AFFAIRS
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-[40px] font-semibold tracking-tight text-[#1E1B16] leading-[1.15] mb-4">
-              Current affairs <br />
-              made simple.
+              Daily UPSC current affairs, <br />
+              mapped to the syllabus.
             </h2>
             <p className="text-[14px] text-[#5C5548] leading-relaxed mb-6 max-w-md">
-              Get concise, reliable and exam-relevant coverage of current affairs with analysis
-              and connections to static topics.
+              Every daily update is tagged to a GS paper and linked to static topics, so you read only what UPSC can ask.
             </p>
 
             {/* 3 Pillars row */}
             <div className="grid grid-cols-3 gap-3 w-full max-w-md mb-6">
-              <div className="p-3 rounded-xl bg-[#FBF8F2] border border-[#E4DCC8] flex flex-col items-center text-center">
-                <div className="w-8 h-8 rounded-lg bg-[#EFE9DA] flex items-center justify-center text-[#A9821E] mb-2">
+              <div className="p-3.5 rounded-xl bg-[#FBF8F2] border border-[#E4DCC8] flex flex-col items-center text-center">
+                <div className="w-9 h-9 rounded-lg bg-[#EFE9DA] flex items-center justify-center text-[#A9821E] mb-2">
                   <FileText className="w-4 h-4 stroke-[1.8]" />
                 </div>
                 <h4 className="font-serif text-xs font-bold text-[#1E1B16] mb-0.5">
                   Daily Updates
                 </h4>
-                <p className="text-[10px] text-[#5C5548] leading-tight">
-                  From trusted sources
+                <p className="text-[10.5px] text-[#5C5548] leading-tight">
+                  Curated from The Hindu &amp; Indian Express
                 </p>
               </div>
 
-              <div className="p-3 rounded-xl bg-[#FBF8F2] border border-[#E4DCC8] flex flex-col items-center text-center">
-                <div className="w-8 h-8 rounded-lg bg-[#EFE9DA] flex items-center justify-center text-[#A9821E] mb-2">
+              <div className="p-3.5 rounded-xl bg-[#FBF8F2] border border-[#E4DCC8] flex flex-col items-center text-center">
+                <div className="w-9 h-9 rounded-lg bg-[#EFE9DA] flex items-center justify-center text-[#A9821E] mb-2">
                   <Search className="w-4 h-4 stroke-[1.8]" />
                 </div>
                 <h4 className="font-serif text-xs font-bold text-[#1E1B16] mb-0.5">
-                  Exam-focused Analysis
+                  Exam-Focused
                 </h4>
-                <p className="text-[10px] text-[#5C5548] leading-tight">
-                  What matters and why
+                <p className="text-[10.5px] text-[#5C5548] leading-tight">
+                  Editorial breakdowns for Prelims &amp; Mains
                 </p>
               </div>
 
-              <div className="p-3 rounded-xl bg-[#FBF8F2] border border-[#E4DCC8] flex flex-col items-center text-center">
-                <div className="w-8 h-8 rounded-lg bg-[#EFE9DA] flex items-center justify-center text-[#A9821E] mb-2">
+              <div className="p-3.5 rounded-xl bg-[#FBF8F2] border border-[#E4DCC8] flex flex-col items-center text-center">
+                <div className="w-9 h-9 rounded-lg bg-[#EFE9DA] flex items-center justify-center text-[#A9821E] mb-2">
                   <Link2 className="w-4 h-4 stroke-[1.8]" />
                 </div>
                 <h4 className="font-serif text-xs font-bold text-[#1E1B16] mb-0.5">
                   Static Linkages
                 </h4>
-                <p className="text-[10px] text-[#5C5548] leading-tight">
-                  Connect with GS topics
+                <p className="text-[10.5px] text-[#5C5548] leading-tight">
+                  Linked directly to static NCERT &amp; standard topics
                 </p>
               </div>
+            </div>
+
+            {/* GS Paper Mapping Tags */}
+            <div className="flex flex-wrap items-center gap-2 mb-6 text-[11px] font-semibold">
+              <span className="px-3 py-1 rounded-full bg-[#EFE9DA] border border-[#DCD2B8] text-[#1E1B16]">
+                GS I: Heritage &amp; Society
+              </span>
+              <span className="px-3 py-1 rounded-full bg-[#EFE9DA] border border-[#DCD2B8] text-[#1E1B16]">
+                GS II: Governance &amp; IR
+              </span>
+              <span className="px-3 py-1 rounded-full bg-[#EFE9DA] border border-[#DCD2B8] text-[#1E1B16]">
+                GS III: Economy &amp; Ecology
+              </span>
+              <span className="px-3 py-1 rounded-full bg-[#EFE9DA] border border-[#DCD2B8] text-[#1E1B16]">
+                GS IV: Ethics Linkages
+              </span>
             </div>
 
             <a

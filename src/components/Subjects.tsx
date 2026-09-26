@@ -1,4 +1,4 @@
-import { Landmark, Clock, BookOpen, Globe, TrendingUp, Trees, Cpu, Scale } from "lucide-react";
+import { Landmark, Clock, BookOpen, Globe, TrendingUp, Trees, Cpu, Scale, Palette, Shield, Network, Users } from "lucide-react";
 
 const subjects = [
   {
@@ -8,38 +8,58 @@ const subjects = [
   },
   {
     name: "Modern History",
-    caption: "Freedom Struggle",
+    caption: "Freedom Struggle & National Movement",
     icon: Clock,
   },
   {
     name: "Ancient History",
-    caption: "Culture, Society, Art",
+    caption: "Culture, Society & Art Architecture",
     icon: BookOpen,
   },
   {
     name: "Geography",
-    caption: "India & World",
+    caption: "Physical, Human, India & World",
     icon: Globe,
   },
   {
     name: "Economy",
-    caption: "Indian Economy, Budget",
+    caption: "Indian Economy, Budget & Survey",
     icon: TrendingUp,
   },
   {
     name: "Environment",
-    caption: "Ecology, Climate Change",
+    caption: "Ecology, Biodiversity & Climate Change",
     icon: Trees,
   },
   {
     name: "Science & Tech",
-    caption: "Current Developments",
+    caption: "Space, AI, Defence & Developments",
     icon: Cpu,
   },
   {
     name: "Ethics",
-    caption: "Values, Case Studies",
+    caption: "Case Studies, Thinkers, Integrity",
     icon: Scale,
+  },
+  {
+    name: "Art & Culture",
+    caption: "Visual, Performing Arts & Literature",
+    icon: Palette,
+  },
+  {
+    name: "Internal Security",
+    caption: "Cyber Security, Borders & Challenges",
+    icon: Shield,
+  },
+  {
+    name: "International Relations",
+    caption: "Bilateral Ties, Treaties & Multilateral",
+    icon: Network,
+  },
+  {
+    name: "Indian Society",
+    caption: "Social Issues, Diversity & Governance",
+    icon: Users,
   },
 ];
 

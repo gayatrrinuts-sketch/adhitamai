@@ -8,22 +8,21 @@ export default function AIMentor() {
           {/* Left Column: Heading and Description */}
           <div className="lg:col-span-5 flex flex-col items-start">
             <span className="text-[11px] uppercase tracking-[0.2em] font-semibold text-[#8C8371] block mb-2.5">
-              AI MENTOR
+              UPSC AI MENTOR
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-[40px] font-semibold tracking-tight text-[#1E1B16] leading-[1.15] mb-4">
-              Your doubt-solving <br />
-              companion.
+              Doubts answered <br />
+              the UPSC way.
             </h2>
-            <p className="text-[14px] text-[#5C5548] leading-relaxed max-w-sm">
-              Ask questions, get clear and structured explanations, and understand concepts in depth.
-              Adhitam AI goes beyond short answers to help you truly learn.
+            <p className="text-[14px] sm:text-[15px] text-[#5C5548] leading-relaxed max-w-sm mb-6">
+              Get answers structured for the exam: definition, constitutional basis, landmark case laws, and a Mains-ready conclusion. Every answer stays strictly within the UPSC syllabus.
             </p>
           </div>
 
           {/* Right Column: Interactive Chat Snippet + Features List matching the reference image */}
           <div className="lg:col-span-7 flex flex-col sm:flex-row items-center gap-6">
             {/* Chat Box Snippet */}
-            <div className="w-full sm:w-[320px] rounded-xl p-4 bg-[#FBF8F2] border border-[#E4DCC8] shadow-sm flex flex-col gap-3">
+            <div className="w-full sm:w-[340px] rounded-xl p-4 bg-[#FBF8F2] border border-[#E4DCC8] shadow-sm flex flex-col gap-3">
               {/* Question */}
               <div className="flex items-start gap-2.5">
                 <span className="text-xs text-[#8C8371] mt-0.5">💬</span>
@@ -37,10 +36,13 @@ export default function AIMentor() {
                 <div className="w-6 h-6 rounded-md bg-[#121016] border border-[#C9A227]/40 flex items-center justify-center text-[11px] font-serif font-bold text-[#D8BE6E] shrink-0 mt-0.5">
                   अ
                 </div>
-                <div className="p-3 rounded-lg bg-[#121016] text-[10.5px] text-[#FAF7F2]/90 leading-relaxed border border-[#FAF7F2]/10">
-                  The Basic Structure Doctrine means that Parliament can amend the Constitution, but it
-                  cannot alter its basic structure or essential features such as democracy, rule of
-                  law, judicial review, and federalism...
+                <div className="p-3 rounded-lg bg-[#121016] text-[11px] text-[#FAF7F2]/90 leading-relaxed border border-[#FAF7F2]/10 space-y-1.5">
+                  <p className="font-medium text-[#D8BE6E]">
+                    Kesavananda Bharati v. State of Kerala (1973)
+                  </p>
+                  <p>
+                    Parliament can amend the Constitution under Art. 368, but cannot destroy its basic structure or core pillars: supremacy of the Constitution, rule of law, judicial review, federalism, and free elections.
+                  </p>
                 </div>
               </div>
             </div>
