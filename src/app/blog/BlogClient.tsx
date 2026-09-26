@@ -161,22 +161,16 @@ export default function BlogClient() {
                 </button>
               );
             })}
-
-            {/* More dropdown pill */}
-            <button className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#FAF8F2] border border-[#E4DCC8] text-[#5C5548] hover:border-[#C9A227] flex items-center gap-1">
-              <span>More</span>
-              <ChevronDown className="w-3 h-3" />
-            </button>
           </div>
 
           {/* Sort Dropdown */}
-          <div className="flex items-center gap-2 text-xs font-medium text-[#5C5548] self-end lg:self-auto">
+          {/* <div className="flex items-center gap-2 text-xs font-medium text-[#5C5548] self-end lg:self-auto">
             <span>Sort by</span>
             <div className="px-3 py-1.5 rounded-lg bg-[#FAF8F2] border border-[#E4DCC8] flex items-center gap-2 cursor-pointer font-semibold text-[#1E1B16]">
               <span>Latest</span>
               <ChevronDown className="w-3 h-3 text-[#8C8371]" />
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* 8 Blog Cards Grid matching the screenshot with links to /blog/[slug] */}

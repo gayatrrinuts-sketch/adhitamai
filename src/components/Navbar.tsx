@@ -50,7 +50,7 @@ export default function Navbar() {
 
         {/* Navigation Links */}
         <nav className="hidden md:flex items-center gap-8 lg:gap-9 text-[13.5px] font-medium text-[#FAF7F2]/90 drop-shadow-sm">
-          <Link href="#home" className="text-[#C9A227] font-semibold border-b border-[#C9A227] pb-0.5">
+          <Link href="/" className="text-[#C9A227] font-semibold border-b border-[#C9A227] pb-0.5">
             Home
           </Link>
           <Link href="#features" className="hover:text-[#D8BE6E] transition-colors">
@@ -61,6 +61,9 @@ export default function Navbar() {
           </Link>
           <Link href="#approach" className="hover:text-[#D8BE6E] transition-colors">
             Approach
+          </Link>
+          <Link href="/blog" className="hover:text-[#D8BE6E] transition-colors">
+            Blogs
           </Link>
           <Link href="#faq" className="hover:text-[#D8BE6E] transition-colors">
             FAQ
