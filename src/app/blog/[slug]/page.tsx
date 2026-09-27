@@ -14,6 +14,11 @@ interface Props {
   }>;
 }
 
+// Ensure newly published articles are rendered dynamically and immediately in production
+export const dynamic = "force-dynamic";
+export const dynamicParams = true;
+export const revalidate = 0;
+
 export async function generateStaticParams() {
   const articles = await getPublishedArticles();
   return articles.map((post) => ({
@@ -35,9 +40,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const seoTitle = post.title;
   const seoDescription = post.description;
 
+  const rawTags =
+    post.tags && post.tags.length > 0
+      ? post.tags
+      : [post.category, "UPSC Preparation", "IAS Exam"];
+  const hasAdhitam = rawTags.some(
+    (t) => t.toLowerCase() === "adhitam ai" || t.toLowerCase() === "adhitamai"
+  );
+  const keywordsList = hasAdhitam ? rawTags : ["Adhitam AI", ...rawTags];
+
   return {
     title: `${seoTitle} — Adhitam AI`,
     description: seoDescription,
+    keywords: keywordsList,
     alternates: {
       canonical: canonicalUrl,
     },
@@ -49,6 +64,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "article",
       publishedTime: post.publishedAt,
       authors: ["Adhitam AI Editorial Team"],
+      tags: keywordsList,
     },
     twitter: {
       card: "summary_large_image",
@@ -69,12 +85,23 @@ export default async function BlogPostPage({ params }: Props) {
 
   const related = await getRelatedArticles(slug, post.category, 3);
 
+  const rawTags =
+    post.tags && post.tags.length > 0
+      ? post.tags
+      : [post.category, "UPSC Preparation", "IAS Exam"];
+  const hasAdhitam = rawTags.some(
+    (t) => t.toLowerCase() === "adhitam ai" || t.toLowerCase() === "adhitamai"
+  );
+  const articleTags = hasAdhitam ? rawTags : ["Adhitam AI", ...rawTags];
+
   // Article JSON-LD
   const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": post.title,
     "description": post.description,
+    "keywords": articleTags.join(", "),
+    "articleSection": post.category,
     "datePublished": post.publishedAt,
     "dateModified": post.updatedAt ? new Date(post.updatedAt).toISOString() : post.publishedAt,
     "author": {

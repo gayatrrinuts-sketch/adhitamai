@@ -16,6 +16,127 @@ interface BlogEditorClientProps {
   initialArticles: BlogPostDoc[];
 }
 
+const POPULAR_UPSC_TAGS = [
+  "UPSC",
+  "IAS",
+  "Prelims",
+  "Mains",
+  "Topper Strategy",
+  "AIR 1",
+  "Answer Writing",
+  "Self-Study",
+  "Medical Science",
+  "Optional Subject",
+  "Current Affairs",
+  "Study Plan",
+  "Mock Tests",
+  "PYQs",
+  "CSAT",
+  "Ethics GS4",
+  "Essay",
+  "NCERT",
+  "Working Professionals",
+];
+
+function extractSuggestedKeywords(
+  articleTitle: string,
+  articleCategory: string,
+  articleDescription: string,
+  articleBlocks: BlogBlock[]
+): string[] {
+  const textParts: string[] = [articleTitle, articleCategory, articleDescription];
+  for (const b of articleBlocks) {
+    if ("content" in b && typeof b.content === "string") {
+      textParts.push(b.content);
+    }
+  }
+  const combined = textParts.join(" ").toLowerCase();
+  const suggested = new Set<string>();
+
+  // Always include primary UPSC tags
+  suggested.add("UPSC");
+  suggested.add("IAS");
+  if (articleCategory && articleCategory.trim()) {
+    suggested.add(articleCategory.trim());
+  }
+
+  // Domain concept matchers
+  if (combined.includes("air 1") || combined.includes("rank 1") || combined.includes("topper")) {
+    suggested.add("AIR 1");
+    suggested.add("Topper Strategy");
+  }
+  if (combined.includes("medical science") || combined.includes("mbbs") || combined.includes("aiims")) {
+    suggested.add("Medical Science");
+    suggested.add("Optional Subject");
+  }
+  if (combined.includes("2027")) {
+    suggested.add("UPSC 2027");
+  }
+  if (combined.includes("2026")) {
+    suggested.add("UPSC 2026");
+  }
+  if (combined.includes("prelims")) {
+    suggested.add("Prelims");
+  }
+  if (combined.includes("mains")) {
+    suggested.add("Mains");
+  }
+  if (combined.includes("answer writing") || combined.includes("answer-writing")) {
+    suggested.add("Answer Writing");
+  }
+  if (
+    combined.includes("self-study") ||
+    combined.includes("self study") ||
+    combined.includes("without coaching") ||
+    combined.includes("small town") ||
+    combined.includes("hometown")
+  ) {
+    suggested.add("Self-Study");
+  }
+  if (combined.includes("csat")) {
+    suggested.add("CSAT");
+  }
+  if (combined.includes("current affairs") || combined.includes("newspaper") || combined.includes("yojana")) {
+    suggested.add("Current Affairs");
+  }
+  if (combined.includes("ethics") || combined.includes("gs4") || combined.includes("gs iv")) {
+    suggested.add("Ethics GS4");
+  }
+  if (combined.includes("essay")) {
+    suggested.add("Essay");
+  }
+  if (combined.includes("pyq") || combined.includes("previous year")) {
+    suggested.add("PYQs");
+  }
+  if (combined.includes("mock") || combined.includes("test series")) {
+    suggested.add("Mock Tests");
+  }
+  if (combined.includes("ncert")) {
+    suggested.add("NCERT");
+  }
+  if (combined.includes("study plan") || combined.includes("roadmap") || combined.includes("month-by-month")) {
+    suggested.add("Study Plan");
+  }
+  if (combined.includes("working professional") || combined.includes("job") || combined.includes("full-time")) {
+    suggested.add("Working Professionals");
+  }
+  if (combined.includes("optional")) {
+    suggested.add("Optional Subject");
+  }
+
+  // Extract candidate name if present (e.g. Dr. Anuj Agnihotri)
+  const nameMatch = articleTitle.match(/(?:Dr\.\s*)?([A-Z][a-z]+ [A-Z][a-z]+)/);
+  if (
+    nameMatch &&
+    nameMatch[1] &&
+    !["Civil Services", "Study Plan", "Preparation Strategy", "Adhitam AI"].includes(nameMatch[1])
+  ) {
+    suggested.add(nameMatch[1]);
+  }
+
+  return Array.from(suggested);
+}
+
 export default function BlogEditorClient({ initialArticles }: BlogEditorClientProps) {
   const router = useRouter();
   const [articles, setArticles] = useState<BlogPostDoc[]>(initialArticles);
@@ -30,7 +151,7 @@ export default function BlogEditorClient({ initialArticles }: BlogEditorClientPr
   const [category, setCategory] = useState("Strategy");
   const [publishedAt, setPublishedAt] = useState(new Date().toISOString().slice(0, 10));
   const [readTime, setReadTime] = useState("10 min read");
-  const [tagsInput, setTagsInput] = useState("UPSC, IAS, Preparation");
+  const [tagsInput, setTagsInput] = useState("Adhitam AI, UPSC, IAS");
   const [blocks, setBlocks] = useState<BlogBlock[]>([]);
   const [faqs, setFaqs] = useState<BlogFAQ[]>([]);
   const [status, setStatus] = useState<BlogPostStatus>("published");
@@ -43,6 +164,40 @@ export default function BlogEditorClient({ initialArticles }: BlogEditorClientPr
   const [deleteModalDoc, setDeleteModalDoc] = useState<BlogPostDoc | null>(null);
   const [importModalOpen, setImportModalOpen] = useState(false);
   const [importJsonText, setImportJsonText] = useState("");
+
+  // Tags array helper guaranteeing Adhitam AI default
+  const rawTagsList = tagsInput
+    .split(",")
+    .map((t) => t.trim())
+    .filter(Boolean);
+  const hasAdhitamTag = rawTagsList.some(
+    (t) => t.toLowerCase() === "adhitam ai" || t.toLowerCase() === "adhitamai"
+  );
+  const currentTagsArray = hasAdhitamTag ? rawTagsList : ["Adhitam AI", ...rawTagsList];
+
+  const toggleTag = (tag: string) => {
+    const isPresent = currentTagsArray.some((t) => t.toLowerCase() === tag.toLowerCase());
+    let next: string[];
+    if (isPresent) {
+      if (tag.toLowerCase() === "adhitam ai" || tag.toLowerCase() === "adhitamai") {
+        setSuccessMsg("Adhitam AI is the default brand tag and is required for SEO.");
+        setTimeout(() => setSuccessMsg(""), 2500);
+        return;
+      }
+      next = currentTagsArray.filter((t) => t.toLowerCase() !== tag.toLowerCase());
+    } else {
+      next = [...currentTagsArray, tag];
+    }
+    setTagsInput(next.join(", "));
+  };
+
+  const handleAutoSuggestKeywords = () => {
+    const suggested = extractSuggestedKeywords(title, category, description, blocks);
+    const combined = Array.from(new Set([...currentTagsArray, ...suggested]));
+    setTagsInput(combined.join(", "));
+    setSuccessMsg(`Populated ${combined.length} SEO keywords and tags for internet search crawlers!`);
+    setTimeout(() => setSuccessMsg(""), 3500);
+  };
 
   // Sync title changes with slug if not custom
   const handleTitleChange = (val: string) => {
@@ -61,7 +216,7 @@ export default function BlogEditorClient({ initialArticles }: BlogEditorClientPr
     setCategory("Strategy");
     setPublishedAt(new Date().toISOString().slice(0, 10));
     setReadTime("8 min read");
-    setTagsInput("UPSC, IAS");
+    setTagsInput("Adhitam AI, UPSC, IAS");
     setBlocks([
       {
         type: "paragraph",
@@ -99,7 +254,12 @@ export default function BlogEditorClient({ initialArticles }: BlogEditorClientPr
     setCategory(art.category);
     setPublishedAt(art.publishedAt || new Date().toISOString().slice(0, 10));
     setReadTime(art.readTime);
-    setTagsInput(art.tags?.join(", ") || "");
+    const loadedTags = art.tags && art.tags.length > 0 ? art.tags : ["Adhitam AI", "UPSC", "IAS"];
+    const hasAdhitam = loadedTags.some(
+      (t) => t.toLowerCase() === "adhitam ai" || t.toLowerCase() === "adhitamai"
+    );
+    const finalTags = hasAdhitam ? loadedTags : ["Adhitam AI", ...loadedTags];
+    setTagsInput(finalTags.join(", "));
     setBlocks(JSON.parse(JSON.stringify(art.blocks || [])));
     setFaqs(JSON.parse(JSON.stringify(art.faqs || [])));
     setStatus(art.status);
@@ -130,6 +290,15 @@ export default function BlogEditorClient({ initialArticles }: BlogEditorClientPr
     const targetStatus = forcedStatus || status;
     const finalSlug = slug.trim() || generateSlug(title);
 
+    const rawTags = tagsInput
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean);
+    const hasAdhitam = rawTags.some(
+      (t) => t.toLowerCase() === "adhitam ai" || t.toLowerCase() === "adhitamai"
+    );
+    const parsedTags = hasAdhitam ? rawTags : ["Adhitam AI", ...rawTags];
+
     const payload = {
       title: title.trim(),
       slug: finalSlug,
@@ -138,7 +307,8 @@ export default function BlogEditorClient({ initialArticles }: BlogEditorClientPr
       publishedAt: publishedAt || new Date().toISOString().slice(0, 10),
       readTime: readTime.trim(),
       status: targetStatus,
-      tags: tagsInput.split(",").map((t) => t.trim()).filter(Boolean),
+      tags: parsedTags,
+      relatedTopics: parsedTags,
       blocks,
       faqs,
     };
@@ -251,6 +421,146 @@ export default function BlogEditorClient({ initialArticles }: BlogEditorClientPr
     const next = [...blocks];
     next[index] = updated;
     setBlocks(next);
+  };
+
+  const [uploadingBlockIndex, setUploadingBlockIndex] = useState<number | null>(null);
+  const [deletingMediaBlockIndex, setDeletingMediaBlockIndex] = useState<number | null>(null);
+
+  const handleBlockFileUpload = async (
+    file: File,
+    blockIndex: number,
+    type: "image" | "document"
+  ) => {
+    setErrorMsg("");
+
+    // Client-side size & type validation
+    if (type === "image") {
+      if (file.size > 2 * 1024 * 1024) {
+        setErrorMsg(
+          `Image size (${(file.size / (1024 * 1024)).toFixed(2)} MB) exceeds maximum allowed limit of 2 MB.`
+        );
+        return;
+      }
+      if (!file.type.startsWith("image/") && !/\.(jpg|jpeg|png|webp|svg)$/i.test(file.name)) {
+        setErrorMsg("Please upload a valid image file (JPEG, PNG, WebP, SVG).");
+        return;
+      }
+    } else {
+      if (file.size > 3 * 1024 * 1024) {
+        setErrorMsg(
+          `PDF document size (${(file.size / (1024 * 1024)).toFixed(2)} MB) exceeds maximum allowed limit of 3 MB.`
+        );
+        return;
+      }
+      if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
+        setErrorMsg("Only PDF documents up to 3 MB are permitted.");
+        return;
+      }
+    }
+
+    setUploadingBlockIndex(blockIndex);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("type", type);
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Upload failed");
+      }
+
+      const targetBlock = blocks[blockIndex];
+      if (type === "image" && targetBlock.type === "image") {
+        updateBlock(blockIndex, {
+          ...targetBlock,
+          src: data.url,
+          alt: targetBlock.alt || file.name.replace(/\.[^/.]+$/, ""),
+        });
+        setSuccessMsg(`Image uploaded to MongoDB (${data.sizeFormatted})`);
+      } else if (type === "document" && targetBlock.type === "download") {
+        updateBlock(blockIndex, {
+          ...targetBlock,
+          fileUrl: data.url,
+          fileName: data.filename,
+          fileSize: data.sizeFormatted,
+          buttonText: `Download ${data.filename.slice(0, 24)} (${data.sizeFormatted})`,
+        });
+        setSuccessMsg(`PDF document uploaded to MongoDB (${data.sizeFormatted})`);
+      }
+      setTimeout(() => setSuccessMsg(""), 4000);
+    } catch (err: any) {
+      console.error("Upload error:", err);
+      setErrorMsg(err.message || "Failed to upload file to database");
+    } finally {
+      setUploadingBlockIndex(null);
+    }
+  };
+
+  const handleRemoveMedia = async (blockIndex: number, type: "image" | "document") => {
+    const targetBlock = blocks[blockIndex];
+    if (!targetBlock) return;
+
+    const currentUrl =
+      type === "image"
+        ? targetBlock.type === "image"
+          ? targetBlock.src
+          : ""
+        : targetBlock.type === "download"
+        ? targetBlock.fileUrl
+        : "";
+
+    if (!currentUrl) return;
+
+    setErrorMsg("");
+    setDeletingMediaBlockIndex(blockIndex);
+
+    try {
+      // Check if this is a MongoDB media file URL
+      const match = currentUrl.match(/\/api\/media\/([a-f0-9]{24})/i);
+      const mediaId = match ? match[1] : null;
+
+      if (mediaId) {
+        const res = await fetch(`/api/media/${mediaId}`, {
+          method: "DELETE",
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok && res.status !== 404) {
+          throw new Error(data.error || "Failed to remove file from database");
+        }
+      }
+
+      if (type === "image" && targetBlock.type === "image") {
+        updateBlock(blockIndex, {
+          ...targetBlock,
+          src: "",
+          alt: "",
+          caption: "",
+        });
+        setSuccessMsg("Image permanently removed from database and block");
+      } else if (type === "document" && targetBlock.type === "download") {
+        updateBlock(blockIndex, {
+          ...targetBlock,
+          fileUrl: "",
+          fileName: "",
+          fileSize: "",
+          buttonText: "Download Document",
+        });
+        setSuccessMsg("Document permanently removed from database and block");
+      }
+
+      setTimeout(() => setSuccessMsg(""), 4000);
+    } catch (err: any) {
+      console.error("Remove media error:", err);
+      setErrorMsg(err.message || "Failed to delete file from database");
+    } finally {
+      setDeletingMediaBlockIndex(null);
+    }
   };
 
   // FAQ manipulation helpers
@@ -686,7 +996,7 @@ export default function BlogEditorClient({ initialArticles }: BlogEditorClientPr
                   />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-semibold text-[#1E1B16] mb-1.5">
                       Published Date
@@ -710,17 +1020,102 @@ export default function BlogEditorClient({ initialArticles }: BlogEditorClientPr
                       className="w-full bg-[#FAF8F2] border border-[#E4DCC8] rounded-xl px-3 py-2 text-xs text-[#1E1B16] focus:outline-none"
                     />
                   </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-[#1E1B16] mb-1.5">
-                      Tags (comma separated)
-                    </label>
-                    <input
-                      type="text"
-                      value={tagsInput}
-                      onChange={(e) => setTagsInput(e.target.value)}
-                      placeholder="UPSC, Prelims, Mains"
-                      className="w-full bg-[#FAF8F2] border border-[#E4DCC8] rounded-xl px-3 py-2 text-xs text-[#1E1B16] focus:outline-none"
-                    />
+                </div>
+
+                {/* SEO Keywords & Tags Manager */}
+                <div className="bg-[#FAF8F2] border border-[#E4DCC8] rounded-xl p-4 sm:p-5 space-y-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <label className="block text-xs font-semibold text-[#1E1B16]">
+                          Keywords & Search Tags (Internet SEO & Crawlers) *
+                        </label>
+                        <span className="px-2 py-0.5 rounded-full bg-[#C9A227]/20 text-[#8C6D1F] text-[10px] font-mono font-bold">
+                          Adhitam AI default included
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-[#5C5548] mt-0.5">
+                        Populates &lt;meta name=&quot;keywords&quot;&gt;, OpenGraph tags, and Schema.org for Google, Bing, and AI search engines on the internet.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleAutoSuggestKeywords}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#C9A227] hover:bg-[#D8BE6E] text-[#121016] text-[11px] font-bold shadow-xs active:scale-95 transition-all self-start sm:self-auto cursor-pointer"
+                    >
+                      <span>✨</span> Auto-Populate Keywords from Content
+                    </button>
+                  </div>
+
+                  <input
+                    type="text"
+                    value={tagsInput}
+                    onChange={(e) => setTagsInput(e.target.value)}
+                    placeholder="Adhitam AI, UPSC, IAS, Strategy, Preparation..."
+                    className="w-full bg-[#FBF8F2] border border-[#E4DCC8] focus:border-[#C9A227] rounded-xl px-3.5 py-2.5 text-xs text-[#1E1B16] focus:outline-none transition-colors"
+                  />
+
+                  {/* Active Tags Preview */}
+                  {currentTagsArray.length > 0 && (
+                    <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                      <span className="text-[10px] font-mono text-[#8C8371] uppercase mr-1">
+                        Active Tags ({currentTagsArray.length}):
+                      </span>
+                      {currentTagsArray.map((t) => {
+                        const isDefault =
+                          t.toLowerCase() === "adhitam ai" || t.toLowerCase() === "adhitamai";
+                        return (
+                          <span
+                            key={t}
+                            className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium border ${
+                              isDefault
+                                ? "bg-[#C9A227]/20 border-[#C9A227]/50 text-[#121016] font-bold"
+                                : "bg-[#EFE9DA] border-[#E4DCC8] text-[#1E1B16]"
+                            }`}
+                          >
+                            {isDefault ? `★ ${t}` : t}
+                            {!isDefault && (
+                              <button
+                                type="button"
+                                onClick={() => toggleTag(t)}
+                                className="text-[#8C8371] hover:text-rose-600 text-xs ml-0.5 cursor-pointer"
+                                title={`Remove ${t}`}
+                              >
+                                ×
+                              </button>
+                            )}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {/* Quick-add popular UPSC keywords */}
+                  <div className="pt-2 border-t border-[#E4DCC8]/60">
+                    <span className="block text-[10px] font-mono text-[#8C8371] uppercase mb-1.5">
+                      Quick-Add Popular UPSC Keywords:
+                    </span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {POPULAR_UPSC_TAGS.map((tag) => {
+                        const isSelected = currentTagsArray.some(
+                          (t) => t.toLowerCase() === tag.toLowerCase()
+                        );
+                        return (
+                          <button
+                            key={tag}
+                            type="button"
+                            onClick={() => toggleTag(tag)}
+                            className={`text-[11px] px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                              isSelected
+                                ? "bg-[#C9A227] text-[#121016] font-semibold shadow-xs"
+                                : "bg-[#FAF8F2] hover:bg-[#EFE9DA] text-[#5C5548] border border-[#E4DCC8]"
+                            }`}
+                          >
+                            {isSelected ? `✓ ${tag}` : `+ ${tag}`}
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -797,6 +1192,52 @@ export default function BlogEditorClient({ initialArticles }: BlogEditorClientPr
                     className="px-2.5 py-1.5 bg-[#EFE9DA] text-[#211D17] rounded-lg text-xs font-medium hover:bg-[#E4DCC8] transition-colors"
                   >
                     + Insert Table
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      addBlock({
+                        type: "image",
+                        src: "",
+                        alt: "",
+                        caption: "",
+                      })
+                    }
+                    className="px-2.5 py-1.5 bg-[#EFE9DA] text-[#211D17] rounded-lg text-xs font-medium hover:bg-[#E4DCC8] transition-colors flex items-center gap-1 cursor-pointer"
+                  >
+                    <span>🖼️</span> + Image (≤2MB)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      addBlock({
+                        type: "link",
+                        href: "https://",
+                        label: "Visit Reference ↗",
+                        title: "Official UPSC Reference / Document",
+                        description: "Access official syllabus, notification or curriculum resource.",
+                      })
+                    }
+                    className="px-2.5 py-1.5 bg-[#EFE9DA] text-[#211D17] rounded-lg text-xs font-medium hover:bg-[#E4DCC8] transition-colors flex items-center gap-1 cursor-pointer"
+                  >
+                    <span>🔗</span> + Link Card
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      addBlock({
+                        type: "download",
+                        title: "UPSC Official Study Document",
+                        description: "Download official syllabus and month-by-month roadmap PDF.",
+                        fileUrl: "",
+                        fileName: "upsc-study-document.pdf",
+                        fileSize: "PDF",
+                        buttonText: "Download PDF",
+                      })
+                    }
+                    className="px-2.5 py-1.5 bg-[#EFE9DA] text-[#211D17] rounded-lg text-xs font-medium hover:bg-[#E4DCC8] transition-colors flex items-center gap-1 cursor-pointer"
+                  >
+                    <span>📥</span> + Download PDF (≤3MB)
                   </button>
                   <button
                     type="button"
@@ -1175,6 +1616,347 @@ export default function BlogEditorClient({ initialArticles }: BlogEditorClientPr
                                 ))}
                               </tbody>
                             </table>
+                          </div>
+                        </div>
+                      )}
+
+                      {block.type === "image" && (
+                        <div className="space-y-3">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 bg-[#EFE9DA]/40 rounded-xl border border-[#E4DCC8]">
+                            <div>
+                              <span className="text-xs font-semibold text-[#1E1B16] block">
+                                Upload Image to Database (Max 2 MB)
+                              </span>
+                              <span className="text-[10px] text-[#5C5548]">
+                                Formats: JPEG, PNG, WebP, SVG. Stored in MongoDB and served on blog.
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2 self-start sm:self-auto">
+                              <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1E1B16] hover:bg-[#332C24] text-[#FAF7F2] text-xs font-medium cursor-pointer shadow-xs active:scale-95 transition-all">
+                                <span>
+                                  {uploadingBlockIndex === index ? "Uploading to DB..." : "📁 Upload Image (≤ 2MB)"}
+                                </span>
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  disabled={uploadingBlockIndex === index}
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) handleBlockFileUpload(file, index, "image");
+                                  }}
+                                  className="hidden"
+                                />
+                              </label>
+                              {block.src && (
+                                <button
+                                  type="button"
+                                  disabled={deletingMediaBlockIndex === index}
+                                  onClick={() => handleRemoveMedia(index, "image")}
+                                  className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 text-xs font-medium active:scale-95 transition-all disabled:opacity-50"
+                                  title="Permanently remove image from database"
+                                >
+                                  {deletingMediaBlockIndex === index ? "Removing..." : "🗑️ Remove Image"}
+                                </button>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Image Confirmation & Actions Badge */}
+                          {block.src && (
+                            <div className="p-2.5 bg-emerald-50/80 border border-emerald-300 text-emerald-900 rounded-xl text-xs flex flex-wrap items-center justify-between gap-2">
+                              <div className="flex items-center gap-2 overflow-hidden">
+                                <span className="font-bold text-emerald-800 shrink-0">✓ Stored in Database:</span>
+                                <span className="font-mono text-[11px] truncate max-w-xs">{block.src}</span>
+                              </div>
+                              <div className="flex items-center gap-3 shrink-0">
+                                <a
+                                  href={block.src}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  download={block.alt ? `${block.alt.replace(/[^a-z0-9]/gi, "-")}.png` : "image.png"}
+                                  className="underline text-emerald-800 hover:text-emerald-950 font-medium text-[11px]"
+                                >
+                                  Test Download / View ↗
+                                </a>
+                                <button
+                                  type="button"
+                                  disabled={deletingMediaBlockIndex === index}
+                                  onClick={() => handleRemoveMedia(index, "image")}
+                                  className="px-2 py-1 rounded bg-rose-100 hover:bg-rose-200 text-rose-800 text-[11px] font-semibold transition-all disabled:opacity-50 flex items-center gap-1"
+                                >
+                                  {deletingMediaBlockIndex === index ? "Deleting..." : "🗑️ Remove Image from DB"}
+                                </button>
+                              </div>
+                            </div>
+                          )}
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                              <label className="text-[10px] text-[#8C8371] font-semibold block mb-1">
+                                Image URL / Path *
+                              </label>
+                              <input
+                                type="text"
+                                value={block.src}
+                                onChange={(e) =>
+                                  updateBlock(index, { ...block, src: e.target.value })
+                                }
+                                placeholder="e.g. /api/media/67... or /assets/study.jpg"
+                                className="w-full bg-[#FBF8F2] border border-[#E4DCC8] rounded px-2.5 py-1.5 text-xs text-[#1E1B16] focus:outline-none"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-[10px] text-[#8C8371] font-semibold block mb-1">
+                                Image Alt Text (SEO & Accessibility) *
+                              </label>
+                              <input
+                                type="text"
+                                value={block.alt}
+                                onChange={(e) =>
+                                  updateBlock(index, { ...block, alt: e.target.value })
+                                }
+                                placeholder="Describe what is shown in the image"
+                                className="w-full bg-[#FBF8F2] border border-[#E4DCC8] rounded px-2.5 py-1.5 text-xs text-[#1E1B16] focus:outline-none"
+                              />
+                            </div>
+                          </div>
+
+                          <div>
+                            <label className="text-[10px] text-[#8C8371] font-semibold block mb-1">
+                              Caption (Optional)
+                            </label>
+                            <input
+                              type="text"
+                              value={block.caption || ""}
+                              onChange={(e) =>
+                                updateBlock(index, { ...block, caption: e.target.value })
+                              }
+                              placeholder="e.g. Source: Adhitam Editorial Research / UPSC Syllabus Blueprint"
+                              className="w-full bg-[#FBF8F2] border border-[#E4DCC8] rounded px-2.5 py-1.5 text-xs text-[#1E1B16] focus:outline-none"
+                            />
+                          </div>
+
+                          {/* Live Thumbnail Preview */}
+                          {block.src && (
+                            <div className="p-2 border border-[#E4DCC8] rounded-xl bg-[#FAF8F2] inline-block">
+                              <span className="text-[10px] font-mono text-[#8C8371] block mb-1">Preview:</span>
+                              <div className="relative w-48 h-28 rounded-lg overflow-hidden border border-[#E4DCC8] bg-black/5">
+                                <img
+                                  src={block.src}
+                                  alt={block.alt || "preview"}
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {block.type === "link" && (
+                        <div className="space-y-3">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                              <label className="text-[10px] text-[#8C8371] font-semibold block mb-1">
+                                Destination URL (href) *
+                              </label>
+                              <input
+                                type="text"
+                                value={block.href}
+                                onChange={(e) =>
+                                  updateBlock(index, { ...block, href: e.target.value })
+                                }
+                                placeholder="https://upsc.gov.in or /blog/..."
+                                className="w-full bg-[#FBF8F2] border border-[#E4DCC8] rounded px-2.5 py-1.5 text-xs text-[#1E1B16] focus:outline-none"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-[10px] text-[#8C8371] font-semibold block mb-1">
+                                Button / Action Label *
+                              </label>
+                              <input
+                                type="text"
+                                value={block.label}
+                                onChange={(e) =>
+                                  updateBlock(index, { ...block, label: e.target.value })
+                                }
+                                placeholder="e.g. Visit Official UPSC Portal ↗"
+                                className="w-full bg-[#FBF8F2] border border-[#E4DCC8] rounded px-2.5 py-1.5 text-xs text-[#1E1B16] focus:outline-none"
+                              />
+                            </div>
+                          </div>
+
+                          <div>
+                            <label className="text-[10px] text-[#8C8371] font-semibold block mb-1">
+                              Resource Title (Optional)
+                            </label>
+                            <input
+                              type="text"
+                              value={block.title || ""}
+                              onChange={(e) =>
+                                updateBlock(index, { ...block, title: e.target.value })
+                              }
+                              placeholder="e.g. Official UPSC Civil Services Examination Calendar & Guidelines"
+                              className="w-full bg-[#FBF8F2] border border-[#E4DCC8] rounded px-2.5 py-1.5 text-xs text-[#1E1B16] focus:outline-none"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-[10px] text-[#8C8371] font-semibold block mb-1">
+                              Description / Context (Optional)
+                            </label>
+                            <textarea
+                              rows={2}
+                              value={block.description || ""}
+                              onChange={(e) =>
+                                updateBlock(index, { ...block, description: e.target.value })
+                              }
+                              placeholder="e.g. Verify the latest exam dates, notifications, and official instructions directly on the commission website."
+                              className="w-full bg-[#FBF8F2] border border-[#E4DCC8] rounded px-2.5 py-1.5 text-xs text-[#1E1B16] focus:outline-none"
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      {block.type === "download" && (
+                        <div className="space-y-3">
+                          {/* Upload Box for PDF up to 3 MB */}
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-[#EFE9DA]/40 rounded-xl border border-[#E4DCC8]">
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs font-semibold text-[#1E1B16]">
+                                  Upload Document to Database (PDF Only, Max 3 MB)
+                                </span>
+                                <span className="px-2 py-0.5 rounded bg-rose-100 text-rose-800 text-[10px] font-mono font-bold">
+                                  PDF ≤ 3MB
+                                </span>
+                              </div>
+                              <span className="text-[10px] text-[#5C5548] block mt-0.5">
+                                Stored persistently in MongoDB. Clicking the button on the blog initiates direct download.
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2 self-start sm:self-auto">
+                              <label className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#C9A227] hover:bg-[#D8BE6E] text-[#121016] text-xs font-bold cursor-pointer shadow-xs active:scale-95 transition-all">
+                                <span>
+                                  {uploadingBlockIndex === index ? "Uploading to DB..." : "📥 Upload PDF (≤ 3MB)"}
+                                </span>
+                                <input
+                                  type="file"
+                                  accept=".pdf,application/pdf"
+                                  disabled={uploadingBlockIndex === index}
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) handleBlockFileUpload(file, index, "document");
+                                  }}
+                                  className="hidden"
+                                />
+                              </label>
+                              {block.fileUrl && (
+                                <button
+                                  type="button"
+                                  disabled={deletingMediaBlockIndex === index}
+                                  onClick={() => handleRemoveMedia(index, "document")}
+                                  className="inline-flex items-center gap-1 px-3 py-2 rounded-lg bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 text-xs font-semibold active:scale-95 transition-all disabled:opacity-50"
+                                  title="Permanently remove document from database"
+                                >
+                                  {deletingMediaBlockIndex === index ? "Removing..." : "🗑️ Remove Doc"}
+                                </button>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Upload Confirmation Badge */}
+                          {block.fileUrl && (
+                            <div className="p-2.5 bg-emerald-50 border border-emerald-300 text-emerald-900 rounded-xl text-xs flex flex-wrap items-center justify-between gap-2">
+                              <div className="flex items-center gap-2">
+                                <span className="font-bold">✓ Uploaded to Database:</span>
+                                <span className="font-mono text-[11px]">{block.fileName || "document.pdf"}</span>
+                                {block.fileSize && (
+                                  <span className="px-1.5 py-0.5 rounded bg-emerald-200 text-[10px] font-mono font-bold">
+                                    {block.fileSize}
+                                  </span>
+                                )}
+                              </div>
+                              <div className="flex items-center gap-3">
+                                <a
+                                  href={block.fileUrl}
+                                  download={block.fileName || "document.pdf"}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="underline text-emerald-800 hover:text-emerald-950 font-medium text-[11px]"
+                                >
+                                  Test Download ↗
+                                </a>
+                                <button
+                                  type="button"
+                                  disabled={deletingMediaBlockIndex === index}
+                                  onClick={() => handleRemoveMedia(index, "document")}
+                                  className="px-2 py-1 rounded bg-rose-100 hover:bg-rose-200 text-rose-800 text-[11px] font-semibold transition-all disabled:opacity-50 flex items-center gap-1"
+                                >
+                                  {deletingMediaBlockIndex === index ? "Deleting..." : "🗑️ Remove Doc from DB"}
+                                </button>
+                              </div>
+                            </div>
+                          )}
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                              <label className="text-[10px] text-[#8C8371] font-semibold block mb-1">
+                                Document Title *
+                              </label>
+                              <input
+                                type="text"
+                                value={block.title}
+                                onChange={(e) =>
+                                  updateBlock(index, { ...block, title: e.target.value })
+                                }
+                                placeholder="e.g. UPSC Prelims & Mains Syllabus Guide 2027 PDF"
+                                className="w-full bg-[#FBF8F2] border border-[#E4DCC8] rounded px-2.5 py-1.5 text-xs text-[#1E1B16] focus:outline-none"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-[10px] text-[#8C8371] font-semibold block mb-1">
+                                Download Button Text
+                              </label>
+                              <input
+                                type="text"
+                                value={block.buttonText || ""}
+                                onChange={(e) =>
+                                  updateBlock(index, { ...block, buttonText: e.target.value })
+                                }
+                                placeholder="e.g. Download PDF (1.8 MB) ↓"
+                                className="w-full bg-[#FBF8F2] border border-[#E4DCC8] rounded px-2.5 py-1.5 text-xs text-[#1E1B16] focus:outline-none"
+                              />
+                            </div>
+                          </div>
+
+                          <div>
+                            <label className="text-[10px] text-[#8C8371] font-semibold block mb-1">
+                              Description / Subtitle
+                            </label>
+                            <textarea
+                              rows={2}
+                              value={block.description || ""}
+                              onChange={(e) =>
+                                updateBlock(index, { ...block, description: e.target.value })
+                              }
+                              placeholder="e.g. Official syllabus, exam pattern, subject breakdowns, and preparation roadmap."
+                              className="w-full bg-[#FBF8F2] border border-[#E4DCC8] rounded px-2.5 py-1.5 text-xs text-[#1E1B16] focus:outline-none"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-[10px] text-[#8C8371] font-semibold block mb-1">
+                              File Download URL (auto-populated on upload, or custom URL)
+                            </label>
+                            <input
+                              type="text"
+                              value={block.fileUrl}
+                              onChange={(e) =>
+                                updateBlock(index, { ...block, fileUrl: e.target.value })
+                              }
+                              placeholder="/api/media/... or https://..."
+                              className="w-full bg-[#FBF8F2] border border-[#E4DCC8] rounded px-2.5 py-1.5 text-xs font-mono text-[#1E1B16] focus:outline-none"
+                            />
                           </div>
                         </div>
                       )}

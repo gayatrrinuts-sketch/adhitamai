@@ -50,8 +50,14 @@ export function validateBlock(block: any, index: number): string | null {
       break;
 
     case "link":
-      if (!block.label || !block.href) {
-        return `Link block #${index + 1} requires label and URL.`;
+      if (!block.href || (!block.label && !block.title)) {
+        return `Link block #${index + 1} requires a destination URL and label.`;
+      }
+      break;
+
+    case "download":
+      if (!block.title || !block.fileUrl) {
+        return `Downloadable document #${index + 1} requires a title and uploaded file URL.`;
       }
       break;
 

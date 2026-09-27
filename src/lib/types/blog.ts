@@ -22,6 +22,8 @@ export type BlogBlock =
       type: "link";
       label: string;
       href: string;
+      title?: string;
+      description?: string;
     }
   | {
       type: "adhitamPromo";
@@ -44,6 +46,15 @@ export type BlogBlock =
       src: string;
       alt: string;
       caption?: string;
+    }
+  | {
+      type: "download";
+      title: string;
+      description?: string;
+      fileUrl: string;
+      fileName: string;
+      fileSize?: string;
+      buttonText?: string;
     };
 
 export interface BlogFAQ {

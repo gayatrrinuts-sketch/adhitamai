@@ -2,10 +2,24 @@ import type { Metadata } from "next";
 import { getPublishedArticles } from "@/lib/blog-service";
 import BlogClient from "./BlogClient";
 
+// Ensure fresh data on every production request so new articles reflect immediately
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: "Blogs & Insights — Adhitam AI | UPSC Preparation Strategies & Explainers",
   description:
     "Thoughts, strategies, and explainers to help you prepare for the UPSC Civil Services Examination with clarity, depth, and discipline.",
+  keywords: [
+    "UPSC Blog",
+    "IAS Preparation Articles",
+    "UPSC Strategy",
+    "UPSC Topper Strategy",
+    "Prelims Roadmap",
+    "Mains Answer Writing",
+    "Civil Services Study Plan",
+    "Adhitam AI",
+  ],
   alternates: {
     canonical: "https://adhitamai.com/blog",
   },

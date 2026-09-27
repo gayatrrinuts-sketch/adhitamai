@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { isAdmin, requireAdmin } from "@/lib/auth";
 import {
   getPublishedArticles,
@@ -6,6 +7,9 @@ import {
   createArticle,
 } from "@/lib/blog-service";
 import { validateBlogPost } from "@/lib/blog-validation";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function GET(request: Request) {
   try {
@@ -16,12 +20,26 @@ export async function GET(request: Request) {
 
     if (wantsAll && authenticated) {
       const articles = await getAllArticlesForAdmin();
-      return NextResponse.json({ articles });
+      return NextResponse.json(
+        { articles },
+        {
+          headers: {
+            "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+          },
+        }
+      );
     }
 
     // Default to published articles
     const articles = await getPublishedArticles();
-    return NextResponse.json({ articles });
+    return NextResponse.json(
+      { articles },
+      {
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        },
+      }
+    );
   } catch (error) {
     console.error("[Blog API] GET error:", error);
     return NextResponse.json(
@@ -46,6 +64,16 @@ export async function POST(request: Request) {
     }
 
     const created = await createArticle(validation.data);
+
+    // Invalidate static caches so production pages reflect immediately
+    try {
+      revalidatePath("/blog");
+      revalidatePath(`/blog/${created.slug}`);
+      revalidatePath("/");
+    } catch (revalErr) {
+      console.warn("[Blog API] Revalidation notice:", revalErr);
+    }
+
     return NextResponse.json({ article: created }, { status: 201 });
   } catch (error: any) {
     if (error.message?.includes("Unauthorized")) {

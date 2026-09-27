@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
 import { importArticles } from "@/lib/blog-service";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function POST(request: Request) {
   try {
@@ -17,6 +21,14 @@ export async function POST(request: Request) {
     }
 
     const imported = await importArticles(articles);
+
+    try {
+      revalidatePath("/blog");
+      revalidatePath("/");
+    } catch (revalErr) {
+      console.warn("[Blog API] Revalidation notice:", revalErr);
+    }
+
     return NextResponse.json({
       success: true,
       count: imported.imported + imported.updated,

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { isAdmin, requireAdmin } from "@/lib/auth";
 import {
   getArticleById,
@@ -7,6 +8,9 @@ import {
   deleteArticle,
 } from "@/lib/blog-service";
 import { validateBlogPost } from "@/lib/blog-validation";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 type RouteProps = {
   params: Promise<{ id: string }>;
@@ -31,7 +35,14 @@ export async function GET(request: Request, props: RouteProps) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    return NextResponse.json({ article });
+    return NextResponse.json(
+      { article },
+      {
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        },
+      }
+    );
   } catch (error) {
     console.error("[Blog API] GET [id] error:", error);
     return NextResponse.json(
@@ -64,6 +75,14 @@ export async function PATCH(request: Request, props: RouteProps) {
       );
     }
 
+    try {
+      revalidatePath("/blog");
+      revalidatePath(`/blog/${updated.slug}`);
+      revalidatePath("/");
+    } catch (revalErr) {
+      console.warn("[Blog API] Revalidation notice:", revalErr);
+    }
+
     return NextResponse.json({ article: updated });
   } catch (error: any) {
     if (error.message?.includes("Unauthorized")) {
@@ -88,6 +107,13 @@ export async function DELETE(request: Request, props: RouteProps) {
         { error: "Article not found or delete failed" },
         { status: 404 }
       );
+    }
+
+    try {
+      revalidatePath("/blog");
+      revalidatePath("/");
+    } catch (revalErr) {
+      console.warn("[Blog API] Revalidation notice:", revalErr);
     }
 
     return NextResponse.json({ success: true, message: "Article deleted" });

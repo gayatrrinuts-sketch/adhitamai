@@ -30,6 +30,23 @@ export async function ensureDbSeeded(): Promise<void> {
 }
 
 /**
+ * Ensures 'Adhitam AI' is always included as a default tag for SEO, search engines and branding
+ */
+export function ensureDefaultTags(tags?: string[]): string[] {
+  const defaultTag = "Adhitam AI";
+  if (!tags || tags.length === 0) {
+    return [defaultTag, "UPSC", "IAS"];
+  }
+  const hasDefault = tags.some(
+    (t) => t.toLowerCase() === "adhitam ai" || t.toLowerCase() === "adhitamai"
+  );
+  if (!hasDefault) {
+    return [defaultTag, ...tags];
+  }
+  return tags;
+}
+
+/**
  * Fetches all published articles for the public blog
  */
 export async function getPublishedArticles(): Promise<BlogPostDoc[]> {
@@ -49,9 +66,12 @@ export async function getPublishedArticles(): Promise<BlogPostDoc[]> {
         for (const d of docs) {
           if (!seen.has(d.slug)) {
             seen.add(d.slug);
+            const enrichedTags = ensureDefaultTags(d.tags);
             uniqueDocs.push({
               ...d,
               _id: d._id?.toString(),
+              tags: enrichedTags,
+              relatedTopics: d.relatedTopics && d.relatedTopics.length > 0 ? d.relatedTopics : enrichedTags,
             } as BlogPostDoc);
           }
         }
@@ -91,9 +111,12 @@ export async function getArticleBySlug(
 
       const doc = await col.findOne(filter);
       if (doc) {
+        const enrichedTags = ensureDefaultTags(doc.tags);
         return {
           ...doc,
           _id: doc._id?.toString(),
+          tags: enrichedTags,
+          relatedTopics: doc.relatedTopics && doc.relatedTopics.length > 0 ? doc.relatedTopics : enrichedTags,
         } as BlogPostDoc;
       }
     }
@@ -105,7 +128,12 @@ export async function getArticleBySlug(
   const match = memoryArticles.find((a) => a.slug === slug || a._id === slug);
   if (!match) return null;
   if (!includeDraft && match.status !== "published") return null;
-  return match;
+  const matchTags = ensureDefaultTags(match.tags);
+  return {
+    ...match,
+    tags: matchTags,
+    relatedTopics: match.relatedTopics && match.relatedTopics.length > 0 ? match.relatedTopics : matchTags,
+  };
 }
  
 /**
@@ -129,17 +157,29 @@ export async function getAllArticlesForAdmin(): Promise<BlogPostDoc[]> {
     if (col) {
       const docs = await col.find({}).sort({ updatedAt: -1, createdAt: -1 }).toArray();
       if (docs && docs.length > 0) {
-        return docs.map((d) => ({
-          ...d,
-          _id: d._id?.toString(),
-        })) as BlogPostDoc[];
+        return docs.map((d) => {
+          const enrichedTags = ensureDefaultTags(d.tags);
+          return {
+            ...d,
+            _id: d._id?.toString(),
+            tags: enrichedTags,
+            relatedTopics: d.relatedTopics && d.relatedTopics.length > 0 ? d.relatedTopics : enrichedTags,
+          };
+        }) as BlogPostDoc[];
       }
     }
   } catch (error) {
     console.warn("[Blog CMS] Failed to query all admin articles from DB:", error);
   }
 
-  return [...memoryArticles];
+  return memoryArticles.map((d) => {
+    const enrichedTags = ensureDefaultTags(d.tags);
+    return {
+      ...d,
+      tags: enrichedTags,
+      relatedTopics: d.relatedTopics && d.relatedTopics.length > 0 ? d.relatedTopics : enrichedTags,
+    };
+  });
 }
 
 /**
@@ -157,9 +197,12 @@ export async function createArticle(
   const baseSlug = data.slug ? generateSlug(data.slug) : generateSlug(data.title);
   const slug = makeSlugUnique(baseSlug, existingSlugs);
 
+  const tagsWithDefault = ensureDefaultTags(data.tags);
   const newDoc: BlogPostDoc = {
     ...data,
     slug,
+    tags: tagsWithDefault,
+    relatedTopics: data.relatedTopics && data.relatedTopics.length > 0 ? data.relatedTopics : tagsWithDefault,
     status: data.status || "draft",
     publishedAt: data.status === "published" ? data.publishedAt || now : undefined,
     createdAt: now,
@@ -207,6 +250,13 @@ export async function updateArticle(
     ...updates,
     updatedAt: now,
   };
+
+  if (updates.tags) {
+    resolvedUpdates.tags = ensureDefaultTags(updates.tags);
+    if (!resolvedUpdates.relatedTopics) {
+      resolvedUpdates.relatedTopics = resolvedUpdates.tags;
+    }
+  }
 
   if (updates.status === "published" && !updates.publishedAt) {
     resolvedUpdates.publishedAt = now;
