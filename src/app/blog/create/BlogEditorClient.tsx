@@ -11,6 +11,7 @@ import {
   ADHITAM_PROMO_VARIANTS,
 } from "@/lib/types/blog";
 import { generateSlug } from "@/lib/slugify";
+import { formatArticleDate } from "@/lib/utils";
 
 interface BlogEditorClientProps {
   initialArticles: BlogPostDoc[];
@@ -799,13 +800,7 @@ export default function BlogEditorClient({ initialArticles }: BlogEditorClientPr
                             </button>
                           </td>
                           <td className="py-4 px-4 whitespace-nowrap text-[#8C8371] font-mono text-[11px]">
-                            {art.updatedAt
-                              ? new Date(art.updatedAt).toLocaleDateString("en-IN", {
-                                  day: "numeric",
-                                  month: "short",
-                                  year: "numeric",
-                                })
-                              : art.publishedAt || "—"}
+                            {formatArticleDate(art.publishedAt || art.updatedAt) || "—"}
                           </td>
                           <td className="py-4 px-6 text-right whitespace-nowrap">
                             <div className="inline-flex items-center gap-2">
@@ -2169,7 +2164,7 @@ export default function BlogEditorClient({ initialArticles }: BlogEditorClientPr
                   {description}
                 </p>
                 <div className="flex items-center gap-4 text-xs font-mono text-[#8C8371]">
-                  <span>{publishedAt}</span>
+                  <span>{formatArticleDate(publishedAt) || publishedAt}</span>
                   <span>·</span>
                   <span>{readTime}</span>
                 </div>

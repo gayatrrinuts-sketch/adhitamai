@@ -18,6 +18,7 @@ import {
   FileText,
 } from "lucide-react";
 import { BlogPostDoc, BlogBlock } from "@/lib/types/blog";
+import { formatArticleDate } from "@/lib/utils";
 import Footer from "@/components/Footer";
 import SocialRail from "@/components/SocialRail";
 
@@ -487,7 +488,7 @@ export default function ArticleClient({ post, related }: Props) {
 
               {/* Date & read time */}
               <div className="text-xs text-[#8C8371] pb-5 mb-6 border-b border-[#E4DCC8] flex items-center gap-2.5 sm:gap-3">
-                <span>Published {post.publishedAt}</span>
+                <span>Published {formatArticleDate(post.publishedAt) || "Recently"}</span>
                 <span>&bull;</span>
                 <span>{post.readTime}</span>
               </div>

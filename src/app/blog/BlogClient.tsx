@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Search, ArrowRight } from "lucide-react";
 import { BlogPostDoc } from "@/lib/types/blog";
+import { formatArticleDate } from "@/lib/utils";
 import Footer from "@/components/Footer";
 
 interface BlogClientProps {
@@ -179,7 +180,7 @@ export default function BlogClient({ initialArticles }: BlogClientProps) {
 
                 <div className="pt-5 border-t border-[#E4DCC8] flex items-center justify-between text-xs text-[#8C8371]">
                   <span className="font-mono text-[11px]">
-                    {post.publishedAt || "UPSC Publication"}
+                    {formatArticleDate(post.publishedAt) || "UPSC Publication"}
                   </span>
                   <span className="inline-flex items-center gap-1.5 font-semibold text-[#1E1B16] group-hover:text-[#C9A227] transition-colors">
                     <span>Read Article</span>

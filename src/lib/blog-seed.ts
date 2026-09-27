@@ -210,9 +210,9 @@ export const initialSeedArticles: BlogPostDoc[] = [
         answer: "Both. Prelims is a screening test, but Mains marks and the interview decide your final rank. Start answer writing before the Prelims result.",
       },
     ],
-    publishedAt: "2026-09-27T00:00:00.000Z",
-    createdAt: "2026-09-27T00:00:00.000Z",
-    updatedAt: "2026-09-27T00:00:00.000Z",
+    publishedAt: "2026-09-27",
+    createdAt: "2026-09-27",
+    updatedAt: "2026-09-27",
   },
 
   // =====================================================================
@@ -450,8 +450,8 @@ export const initialSeedArticles: BlogPostDoc[] = [
         answer: "The article presents earlier results as opportunities to identify weaknesses in performance, particularly answer writing, planning and time management. The lesson is to diagnose what needs improvement rather than simply repeat the same preparation approach.",
       },
     ],
-    publishedAt: "2026-09-27T00:00:00.000Z",
-    createdAt: "2026-09-27T00:00:00.000Z",
-    updatedAt: "2026-09-27T00:00:00.000Z",
+    publishedAt: "2026-09-27",
+    createdAt: "2026-09-27",
+    updatedAt: "2026-09-27",
   },
 ];

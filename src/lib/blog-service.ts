@@ -47,6 +47,14 @@ export function ensureDefaultTags(tags?: string[]): string[] {
 }
 
 /**
+ * Strips raw ISO time offsets like 'T00:00:00.000Z' and keeps only the YYYY-MM-DD date
+ */
+export function cleanDate(dateStr?: string | null): string | undefined {
+  if (!dateStr) return undefined;
+  return dateStr.includes("T") ? dateStr.split("T")[0] : dateStr.trim();
+}
+
+/**
  * Fetches all published articles for the public blog
  */
 export async function getPublishedArticles(): Promise<BlogPostDoc[]> {
@@ -70,6 +78,7 @@ export async function getPublishedArticles(): Promise<BlogPostDoc[]> {
             uniqueDocs.push({
               ...d,
               _id: d._id?.toString(),
+              publishedAt: cleanDate(d.publishedAt),
               tags: enrichedTags,
               relatedTopics: d.relatedTopics && d.relatedTopics.length > 0 ? d.relatedTopics : enrichedTags,
             } as BlogPostDoc);
@@ -115,6 +124,7 @@ export async function getArticleBySlug(
         return {
           ...doc,
           _id: doc._id?.toString(),
+          publishedAt: cleanDate(doc.publishedAt),
           tags: enrichedTags,
           relatedTopics: doc.relatedTopics && doc.relatedTopics.length > 0 ? doc.relatedTopics : enrichedTags,
         } as BlogPostDoc;
@@ -131,6 +141,7 @@ export async function getArticleBySlug(
   const matchTags = ensureDefaultTags(match.tags);
   return {
     ...match,
+    publishedAt: cleanDate(match.publishedAt),
     tags: matchTags,
     relatedTopics: match.relatedTopics && match.relatedTopics.length > 0 ? match.relatedTopics : matchTags,
   };
@@ -162,6 +173,7 @@ export async function getAllArticlesForAdmin(): Promise<BlogPostDoc[]> {
           return {
             ...d,
             _id: d._id?.toString(),
+            publishedAt: cleanDate(d.publishedAt),
             tags: enrichedTags,
             relatedTopics: d.relatedTopics && d.relatedTopics.length > 0 ? d.relatedTopics : enrichedTags,
           };
@@ -204,7 +216,7 @@ export async function createArticle(
     tags: tagsWithDefault,
     relatedTopics: data.relatedTopics && data.relatedTopics.length > 0 ? data.relatedTopics : tagsWithDefault,
     status: data.status || "draft",
-    publishedAt: data.status === "published" ? data.publishedAt || now : undefined,
+    publishedAt: data.status === "published" ? cleanDate(data.publishedAt) || now.slice(0, 10) : undefined,
     createdAt: now,
     updatedAt: now,
     seoTitle: data.seoTitle || data.title,
@@ -259,7 +271,9 @@ export async function updateArticle(
   }
 
   if (updates.status === "published" && !updates.publishedAt) {
-    resolvedUpdates.publishedAt = now;
+    resolvedUpdates.publishedAt = now.slice(0, 10);
+  } else if (updates.publishedAt) {
+    resolvedUpdates.publishedAt = cleanDate(updates.publishedAt);
   }
 
   try {
@@ -353,7 +367,7 @@ export async function setArticleStatus(
 ): Promise<BlogPostDoc | null> {
   const updates: Partial<BlogPostDoc> = { status };
   if (status === "published") {
-    updates.publishedAt = new Date().toISOString();
+    updates.publishedAt = new Date().toISOString().slice(0, 10);
   }
   return updateArticle(idOrSlug, updates);
 }
