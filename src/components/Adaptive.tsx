@@ -24,12 +24,11 @@ export default function Adaptive() {
               you forget.
             </h2>
             <p className="text-[14px] sm:text-[15px] text-[#FAF7F2]/75 leading-relaxed max-w-sm mb-6">
-              Adhitam AI models your forgetting curve for every topic. Weak areas resurface before they disappear from memory, so revision is timed rather than random.
+              Reading something once feels productive. Remembering it when the question appears is what matters. Adhitam uses your preparation and practice history to bring topics back into your routine when they need another look.
             </p>
 
-            <div className="flex items-center gap-2 text-xs font-bold text-[#D8BE6E]">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Retention-weighted study sequencing</span>
+            <div className="text-xs font-semibold text-[#D8BE6E] italic font-serif">
+              Revision should have a reason, not just a date.
             </div>
           </div>
 
@@ -45,11 +44,8 @@ export default function Adaptive() {
                   Smart Sequencing
                 </h3>
                 <p className="text-[12px] text-[#FAF7F2]/65 leading-relaxed">
-                  Prelims and Mains topics ordered by exam weightage and your real progress.
+                  Your preparation is ordered around the syllabus, progress and what needs attention next.
                 </p>
-              </div>
-              <div className="mt-4 pt-3 border-t border-[#FAF7F2]/10 text-[10.5px] font-medium text-[#C9A227]">
-                Weightage-Driven
               </div>
             </div>
 
@@ -63,11 +59,8 @@ export default function Adaptive() {
                   Spaced Revision
                 </h3>
                 <p className="text-[12px] text-[#FAF7F2]/65 leading-relaxed">
-                  Topics return at planned mathematical intervals to lock concepts into long-term recall.
+                  Important topics return at planned intervals instead of waiting for you to remember to revise them.
                 </p>
-              </div>
-              <div className="mt-4 pt-3 border-t border-[#FAF7F2]/10 text-[10.5px] font-medium text-[#C9A227]">
-                Timed Intervals
               </div>
             </div>
 
@@ -81,11 +74,8 @@ export default function Adaptive() {
                   Weak-Area Focus
                 </h3>
                 <p className="text-[12px] text-[#FAF7F2]/65 leading-relaxed">
-                  Low-accuracy areas receive prioritized practice without manual bookmark management.
+                  Topics where you&apos;re struggling get another opportunity for practice and revision.
                 </p>
-              </div>
-              <div className="mt-4 pt-3 border-t border-[#FAF7F2]/10 text-[10.5px] font-medium text-[#C9A227]">
-                Active Correction
               </div>
             </div>
           </div>

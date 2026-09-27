@@ -7,13 +7,20 @@ export default function DownloadCTA() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left Column: Heading and App Store Badges */}
           <div className="lg:col-span-7 flex flex-col items-start">
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-[42px] font-semibold tracking-tight text-[#1E1B16] leading-[1.15] mb-3">
-              Start your journey <br />
-              today.
+            <span className="text-[11px] uppercase tracking-[0.22em] font-semibold text-[#A9821E] block mb-2.5">
+              FROM PREPARATION TO PURPOSE
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-[42px] font-semibold tracking-tight text-[#1E1B16] leading-[1.15] mb-3 text-wrap-balance">
+              Know what to study. <br />
+              Know what to revise. <br />
+              Keep moving.
             </h2>
-            <p className="text-[14px] text-[#5C5548] leading-relaxed mb-6 max-w-md">
-              Download Adhitam AI and take the next step towards a higher purpose.
+            <p className="text-[14px] text-[#5C5548] leading-relaxed mb-4 max-w-md">
+              Your UPSC preparation doesn&apos;t need more noise. It needs a clearer next step.
             </p>
+            <div className="text-xs font-semibold text-[#A9821E] mb-6 tracking-wide">
+              Preparation to Purpose.
+            </div>
 
             {/* Official App Store & Google Play Badges matching the image */}
             <div className="flex flex-wrap items-center gap-3">

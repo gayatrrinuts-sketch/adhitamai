@@ -1,0 +1,376 @@
+import { ObjectId } from "mongodb";
+import { getBlogsCollection } from "./mongodb";
+import { BlogPostDoc, BlogPostStatus } from "./types/blog";
+import { initialSeedArticles } from "./blog-seed";
+import { generateSlug, makeSlugUnique } from "./slugify";
+
+// In-memory runtime fallback cache when MongoDB is offline / disconnected
+let memoryArticles: BlogPostDoc[] = [...initialSeedArticles];
+let isSeededInDb = false;
+
+/**
+ * Initializes and seeds the MongoDB collection with initial approved articles if empty
+ */
+export async function ensureDbSeeded(): Promise<void> {
+  if (isSeededInDb) return;
+
+  try {
+    const col = await getBlogsCollection();
+    if (!col) return;
+
+    const count = await col.countDocuments();
+    if (count === 0) {
+      await col.insertMany(initialSeedArticles as any);
+      console.log(`[Blog CMS] Seeded MongoDB with ${initialSeedArticles.length} initial articles.`);
+    }
+    isSeededInDb = true;
+  } catch (error) {
+    console.warn("[Blog CMS] Seed check failed, using fallback:", error);
+  }
+}
+
+/**
+ * Fetches all published articles for the public blog
+ */
+export async function getPublishedArticles(): Promise<BlogPostDoc[]> {
+  await ensureDbSeeded();
+
+  try {
+    const col = await getBlogsCollection();
+    if (col) {
+      const docs = await col
+        .find({ status: "published" })
+        .sort({ publishedAt: -1, createdAt: -1 })
+        .toArray();
+
+      if (docs && docs.length > 0) {
+        const seen = new Set<string>();
+        const uniqueDocs: BlogPostDoc[] = [];
+        for (const d of docs) {
+          if (!seen.has(d.slug)) {
+            seen.add(d.slug);
+            uniqueDocs.push({
+              ...d,
+              _id: d._id?.toString(),
+            } as BlogPostDoc);
+          }
+        }
+        return uniqueDocs;
+      }
+    }
+  } catch (error) {
+    console.warn("[Blog CMS] Failed to query published articles from DB, using fallback:", error);
+  }
+
+  // Memory fallback deduplicated
+  const seenMem = new Set<string>();
+  return memoryArticles.filter((a) => {
+    if (a.status !== "published") return false;
+    if (seenMem.has(a.slug)) return false;
+    seenMem.add(a.slug);
+    return true;
+  });
+}
+
+/**
+ * Fetches a single article by its slug
+ */
+export async function getArticleBySlug(
+  slug: string,
+  includeDraft: boolean = false
+): Promise<BlogPostDoc | null> {
+  await ensureDbSeeded();
+
+  try {
+    const col = await getBlogsCollection();
+    if (col) {
+      const filter: any = { slug };
+      if (!includeDraft) {
+        filter.status = "published";
+      }
+
+      const doc = await col.findOne(filter);
+      if (doc) {
+        return {
+          ...doc,
+          _id: doc._id?.toString(),
+        } as BlogPostDoc;
+      }
+    }
+  } catch (error) {
+    console.warn(`[Blog CMS] Failed to find article by slug '${slug}' in DB:`, error);
+  }
+
+  // Memory fallback
+  const match = memoryArticles.find((a) => a.slug === slug || a._id === slug);
+  if (!match) return null;
+  if (!includeDraft && match.status !== "published") return null;
+  return match;
+}
+ 
+/**
+ * Fetches an article by its ID or Slug
+ */
+export async function getArticleById(
+  idOrSlug: string,
+  includeDraft: boolean = true
+): Promise<BlogPostDoc | null> {
+  return getArticleBySlug(idOrSlug, includeDraft);
+}
+
+/**
+ * Fetches all articles (drafts + published) for editorial admin console
+ */
+export async function getAllArticlesForAdmin(): Promise<BlogPostDoc[]> {
+  await ensureDbSeeded();
+
+  try {
+    const col = await getBlogsCollection();
+    if (col) {
+      const docs = await col.find({}).sort({ updatedAt: -1, createdAt: -1 }).toArray();
+      if (docs && docs.length > 0) {
+        return docs.map((d) => ({
+          ...d,
+          _id: d._id?.toString(),
+        })) as BlogPostDoc[];
+      }
+    }
+  } catch (error) {
+    console.warn("[Blog CMS] Failed to query all admin articles from DB:", error);
+  }
+
+  return [...memoryArticles];
+}
+
+/**
+ * Creates a new article in MongoDB
+ */
+export async function createArticle(
+  data: Omit<BlogPostDoc, "_id" | "createdAt" | "updatedAt">
+): Promise<BlogPostDoc> {
+  await ensureDbSeeded();
+
+  const now = new Date().toISOString();
+  const allArticles = await getAllArticlesForAdmin();
+  const existingSlugs = allArticles.map((a) => a.slug);
+
+  const baseSlug = data.slug ? generateSlug(data.slug) : generateSlug(data.title);
+  const slug = makeSlugUnique(baseSlug, existingSlugs);
+
+  const newDoc: BlogPostDoc = {
+    ...data,
+    slug,
+    status: data.status || "draft",
+    publishedAt: data.status === "published" ? data.publishedAt || now : undefined,
+    createdAt: now,
+    updatedAt: now,
+    seoTitle: data.seoTitle || data.title,
+    seoDescription: data.seoDescription || data.description,
+  };
+
+  try {
+    const col = await getBlogsCollection();
+    if (col) {
+      const result = await col.insertOne(newDoc as any);
+      newDoc._id = result.insertedId.toString();
+    }
+  } catch (error) {
+    console.warn("[Blog CMS] Failed to insert article into DB:", error);
+    newDoc._id = `mem-${Date.now()}`;
+  }
+
+  // Update memory cache
+  memoryArticles.unshift(newDoc);
+  return newDoc;
+}
+
+/**
+ * Updates an existing article in MongoDB by ID or Slug
+ */
+export async function updateArticle(
+  idOrSlug: string,
+  updates: Partial<BlogPostDoc>
+): Promise<BlogPostDoc | null> {
+  await ensureDbSeeded();
+
+  const now = new Date().toISOString();
+  const filter: any = {};
+
+  if (ObjectId.isValid(idOrSlug)) {
+    filter._id = new ObjectId(idOrSlug);
+  } else {
+    filter.slug = idOrSlug;
+  }
+
+  // Handle slug change if title or slug is being updated
+  let resolvedUpdates: any = {
+    ...updates,
+    updatedAt: now,
+  };
+
+  if (updates.status === "published" && !updates.publishedAt) {
+    resolvedUpdates.publishedAt = now;
+  }
+
+  try {
+    const col = await getBlogsCollection();
+    if (col) {
+      const res = await col.findOneAndUpdate(
+        filter,
+        { $set: resolvedUpdates },
+        { returnDocument: "after" }
+      );
+
+      if (res) {
+        const updatedDoc = {
+          ...res,
+          _id: res._id?.toString(),
+        } as BlogPostDoc;
+
+        // Sync memory cache
+        const memIdx = memoryArticles.findIndex(
+          (a) => a._id === idOrSlug || a.slug === idOrSlug
+        );
+        if (memIdx !== -1) {
+          memoryArticles[memIdx] = updatedDoc;
+        } else {
+          memoryArticles.unshift(updatedDoc);
+        }
+
+        return updatedDoc;
+      }
+    }
+  } catch (error) {
+    console.warn("[Blog CMS] Failed to update article in DB:", error);
+  }
+
+  // Memory fallback
+  const memIdx = memoryArticles.findIndex(
+    (a) => a._id === idOrSlug || a.slug === idOrSlug
+  );
+  if (memIdx === -1) return null;
+
+  const updatedDoc: BlogPostDoc = {
+    ...memoryArticles[memIdx],
+    ...resolvedUpdates,
+  };
+  memoryArticles[memIdx] = updatedDoc;
+  return updatedDoc;
+}
+
+/**
+ * Deletes an article from MongoDB by ID or Slug
+ */
+export async function deleteArticle(idOrSlug: string): Promise<boolean> {
+  await ensureDbSeeded();
+
+  const filter: any = {};
+  if (ObjectId.isValid(idOrSlug)) {
+    filter._id = new ObjectId(idOrSlug);
+  } else {
+    filter.slug = idOrSlug;
+  }
+
+  try {
+    const col = await getBlogsCollection();
+    if (col) {
+      const result = await col.deleteOne(filter);
+      const deleted = result.deletedCount > 0;
+      if (deleted) {
+        memoryArticles = memoryArticles.filter(
+          (a) => a._id !== idOrSlug && a.slug !== idOrSlug
+        );
+      }
+      return deleted;
+    }
+  } catch (error) {
+    console.warn("[Blog CMS] Failed to delete article from DB:", error);
+  }
+
+  const initialLength = memoryArticles.length;
+  memoryArticles = memoryArticles.filter(
+    (a) => a._id !== idOrSlug && a.slug !== idOrSlug
+  );
+  return memoryArticles.length < initialLength;
+}
+
+/**
+ * Publishes or unpublishes an article
+ */
+export async function setArticleStatus(
+  idOrSlug: string,
+  status: BlogPostStatus
+): Promise<BlogPostDoc | null> {
+  const updates: Partial<BlogPostDoc> = { status };
+  if (status === "published") {
+    updates.publishedAt = new Date().toISOString();
+  }
+  return updateArticle(idOrSlug, updates);
+}
+
+/**
+ * Finds related articles strictly among published articles, excluding current
+ */
+export async function getRelatedArticles(
+  currentSlug: string,
+  category?: string,
+  limit: number = 3
+): Promise<BlogPostDoc[]> {
+  const allPublished = await getPublishedArticles();
+  const others = allPublished.filter((a) => a.slug !== currentSlug);
+
+  if (others.length === 0) return [];
+
+  // Match by category first
+  const sameCategory = category
+    ? others.filter((a) => a.category.toLowerCase() === category.toLowerCase())
+    : [];
+
+  const diffCategory = others.filter(
+    (a) => !category || a.category.toLowerCase() !== category.toLowerCase()
+  );
+
+  const combined = [...sameCategory, ...diffCategory];
+  const seenSlugs = new Set<string>();
+  const uniqueRelated: BlogPostDoc[] = [];
+  for (const art of combined) {
+    if (!seenSlugs.has(art.slug)) {
+      seenSlugs.add(art.slug);
+      uniqueRelated.push(art);
+    }
+  }
+
+  return uniqueRelated.slice(0, limit);
+}
+
+/**
+ * Exports all articles as JSON
+ */
+export async function exportAllArticles(): Promise<BlogPostDoc[]> {
+  return getAllArticlesForAdmin();
+}
+
+/**
+ * Imports articles array with validation
+ */
+export async function importArticles(
+  docs: BlogPostDoc[]
+): Promise<{ imported: number; updated: number }> {
+  await ensureDbSeeded();
+  let imported = 0;
+  let updated = 0;
+
+  for (const doc of docs) {
+    if (!doc.title || !doc.slug) continue;
+    const existing = await getArticleBySlug(doc.slug, true);
+    if (existing) {
+      await updateArticle(doc.slug, doc);
+      updated++;
+    } else {
+      await createArticle(doc);
+      imported++;
+    }
+  }
+
+  return { imported, updated };
+}

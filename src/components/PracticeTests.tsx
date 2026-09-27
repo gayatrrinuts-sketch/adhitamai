@@ -9,20 +9,23 @@ export default function PracticeTests() {
           {/* Left Column: Heading and Context */}
           <div className="lg:col-span-5 flex flex-col items-start">
             <span className="text-[11px] uppercase tracking-[0.22em] font-semibold text-[#8C8371] block mb-2.5">
-              PRELIMS &amp; MAINS PRACTICE
+              PRELIMS PRACTICE
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-[40px] font-semibold tracking-tight text-[#FAF7F2] leading-[1.15] mb-4">
-              UPSC Prelims and Mains <br />
-              practice with PYQs.
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-[40px] font-semibold tracking-tight text-[#FAF7F2] leading-[1.15] mb-4 text-wrap-balance">
+              Practice what UPSC <br />
+              actually asks.
             </h2>
             <p className="text-[14px] text-[#FAF7F2]/75 leading-relaxed mb-6 max-w-sm">
-              Practice UPSC PYQs, topic-wise tests, full-length mocks, and structured Mains answer writing to build speed, accuracy, and real exam confidence.
+              Don&apos;t wait until the end of the syllabus to test yourself. Use PYQs and topic-wise practice to understand how concepts become questions &mdash; then use mocks to build speed and consistency.
             </p>
+            <div className="text-xs font-semibold text-[#D8BE6E] italic font-serif mb-6">
+              Practice isn&apos;t the final step. It is part of learning.
+            </div>
             <a
               href="#download"
               className="inline-flex items-center gap-1.5 text-xs font-bold text-[#D8BE6E] hover:text-[#C9A227] transition-colors"
             >
-              <span>Explore Tests</span>
+              <span>Explore Practice</span>
               <span>&rarr;</span>
             </a>
           </div>
@@ -38,7 +41,7 @@ export default function PracticeTests() {
                     Topic-wise Practice
                   </h4>
                   <p className="text-[11px] text-[#FAF7F2]/65 leading-relaxed">
-                    MCQs arranged as per the UPSC syllabus.
+                    Practice by subject and topic instead of solving random questions.
                   </p>
                 </div>
               </div>
@@ -50,7 +53,7 @@ export default function PracticeTests() {
                     Previous Year Questions
                   </h4>
                   <p className="text-[11px] text-[#FAF7F2]/65 leading-relaxed">
-                    Year-wise and topic-wise.
+                    Study the questions that have already shaped the examination.
                   </p>
                 </div>
               </div>
@@ -62,7 +65,7 @@ export default function PracticeTests() {
                     Full-length Mocks
                   </h4>
                   <p className="text-[11px] text-[#FAF7F2]/65 leading-relaxed">
-                    Simulate real exam conditions.
+                    Put your preparation under realistic test conditions.
                   </p>
                 </div>
               </div>
@@ -74,7 +77,7 @@ export default function PracticeTests() {
                     Detailed Analysis
                   </h4>
                   <p className="text-[11px] text-[#FAF7F2]/65 leading-relaxed">
-                    Identify strengths and weak areas.
+                    See where your answers hold up and where they need work.
                   </p>
                 </div>
               </div>

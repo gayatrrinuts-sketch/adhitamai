@@ -8,14 +8,14 @@ export default function CurrentAffairs() {
           {/* Left Column: Heading, Pillars, and Link */}
           <div className="lg:col-span-6 flex flex-col items-start">
             <span className="text-[11px] uppercase tracking-[0.2em] font-semibold text-[#8C8371] block mb-2.5">
-              CURRENT AFFAIRS
+              STAY CONNECTED
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-[40px] font-semibold tracking-tight text-[#1E1B16] leading-[1.15] mb-4">
-              Daily UPSC current affairs, <br />
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-[40px] font-semibold tracking-tight text-[#1E1B16] leading-[1.15] mb-4 text-wrap-balance">
+              Current affairs, <br />
               mapped to the syllabus.
             </h2>
             <p className="text-[14px] text-[#5C5548] leading-relaxed mb-6 max-w-md">
-              Every daily update is tagged to a GS paper and linked to static topics, so you read only what UPSC can ask.
+              You don&apos;t need more news. You need to know which news matters, why it matters, and where it fits in your preparation.
             </p>
 
             {/* 3 Pillars row */}
@@ -28,7 +28,7 @@ export default function CurrentAffairs() {
                   Daily Updates
                 </h4>
                 <p className="text-[10.5px] text-[#5C5548] leading-tight">
-                  Curated from The Hindu &amp; Indian Express
+                  Stay informed without getting buried in information.
                 </p>
               </div>
 
@@ -37,10 +37,10 @@ export default function CurrentAffairs() {
                   <Search className="w-4 h-4 stroke-[1.8]" />
                 </div>
                 <h4 className="font-serif text-xs font-bold text-[#1E1B16] mb-0.5">
-                  Exam-Focused
+                  Exam-Focused Analysis
                 </h4>
                 <p className="text-[10.5px] text-[#5C5548] leading-tight">
-                  Editorial breakdowns for Prelims &amp; Mains
+                  Understand the issue beyond the headline.
                 </p>
               </div>
 
@@ -52,25 +52,14 @@ export default function CurrentAffairs() {
                   Static Linkages
                 </h4>
                 <p className="text-[10.5px] text-[#5C5548] leading-tight">
-                  Linked directly to static NCERT &amp; standard topics
+                  Connect current developments with the concepts you&apos;re already studying.
                 </p>
               </div>
             </div>
 
-            {/* GS Paper Mapping Tags */}
-            <div className="flex flex-wrap items-center gap-2 mb-6 text-[11px] font-semibold">
-              <span className="px-3 py-1 rounded-full bg-[#EFE9DA] border border-[#DCD2B8] text-[#1E1B16]">
-                GS I: Heritage &amp; Society
-              </span>
-              <span className="px-3 py-1 rounded-full bg-[#EFE9DA] border border-[#DCD2B8] text-[#1E1B16]">
-                GS II: Governance &amp; IR
-              </span>
-              <span className="px-3 py-1 rounded-full bg-[#EFE9DA] border border-[#DCD2B8] text-[#1E1B16]">
-                GS III: Economy &amp; Ecology
-              </span>
-              <span className="px-3 py-1 rounded-full bg-[#EFE9DA] border border-[#DCD2B8] text-[#1E1B16]">
-                GS IV: Ethics Linkages
-              </span>
+            {/* Closing Line */}
+            <div className="text-xs font-semibold text-[#A9821E] italic font-serif mb-6">
+              Read the news. Understand the issue. Connect it to the syllabus.
             </div>
 
             <a

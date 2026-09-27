@@ -18,34 +18,48 @@ export default function StudyPlan() {
               set for you.
             </h2>
             <p className="text-[#FAF7F2]/75 text-[14px] sm:text-[15.5px] leading-relaxed mb-6 max-w-md">
-              Tell us your attempt year, optional subject, and hours per day. Adhitam AI builds a daily mission: fresh GS topics, revision due today, and PYQs to practice. No more deciding what to study.
+              You shouldn&apos;t spend your best study hours deciding what to study next. Tell Adhitam your attempt year, optional subject and available time, and your preparation can be organized into a daily mission.
             </p>
 
-            {/* Feature Points from Brief */}
-            <div className="space-y-2 mb-7 text-xs text-[#FAF7F2]/80">
-              <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#C9A227]" />
-                <span>Daily structured study missions</span>
+            {/* Three Content Pillars */}
+            <div className="space-y-3 mb-6 text-xs text-[#FAF7F2]/85 w-full max-w-md">
+              <div className="p-3 rounded-xl bg-[#1E1B16] border border-[#FAF7F2]/10 flex items-start gap-3">
+                <span className="text-[11px] font-bold text-[#C9A227] tracking-wider uppercase shrink-0 mt-0.5">
+                  STUDY
+                </span>
+                <span className="text-[12px] text-[#FAF7F2]/75">
+                  New topics that move your preparation forward.
+                </span>
               </div>
-              <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#C9A227]" />
-                <span>Fresh topic progression mapped to syllabus</span>
+              <div className="p-3 rounded-xl bg-[#1E1B16] border border-[#FAF7F2]/10 flex items-start gap-3">
+                <span className="text-[11px] font-bold text-[#C9A227] tracking-wider uppercase shrink-0 mt-0.5">
+                  REVISE
+                </span>
+                <span className="text-[12px] text-[#FAF7F2]/75">
+                  Topics that are due for another pass.
+                </span>
               </div>
-              <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#C9A227]" />
-                <span>Revision due today based on forgetting curve</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#C9A227]" />
-                <span>Integrated PYQ practice</span>
+              <div className="p-3 rounded-xl bg-[#1E1B16] border border-[#FAF7F2]/10 flex items-start gap-3">
+                <span className="text-[11px] font-bold text-[#C9A227] tracking-wider uppercase shrink-0 mt-0.5">
+                  PRACTICE
+                </span>
+                <span className="text-[12px] text-[#FAF7F2]/75">
+                  PYQs and questions that turn understanding into recall.
+                </span>
               </div>
             </div>
+
+            {/* Closing Line */}
+            <div className="text-xs font-semibold text-[#D8BE6E] mb-7 italic font-serif">
+              Less time deciding. More time preparing.
+            </div>
+
             <a
               href="#download"
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-[#C9A227] text-[#121016] text-xs font-bold tracking-wide shadow-md hover:bg-[#D8BE6E] active:scale-95 transition-all"
             >
               <span>Download App</span>
-              <ArrowDown className="w-3.5 h-3.5 stroke-[2.5]" />
+              <span>&rarr;</span>
             </a>
           </div>
 

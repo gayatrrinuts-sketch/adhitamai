@@ -6,17 +6,26 @@ export default function AIMentor() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left Column: Heading and Description */}
+          {/* Left Column: Heading and Description */}
           <div className="lg:col-span-5 flex flex-col items-start">
             <span className="text-[11px] uppercase tracking-[0.2em] font-semibold text-[#8C8371] block mb-2.5">
               UPSC AI MENTOR
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-[40px] font-semibold tracking-tight text-[#1E1B16] leading-[1.15] mb-4">
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-[40px] font-semibold tracking-tight text-[#1E1B16] leading-[1.15] mb-4 text-wrap-balance">
               Doubts answered <br />
               the UPSC way.
             </h2>
-            <p className="text-[14px] sm:text-[15px] text-[#5C5548] leading-relaxed max-w-sm mb-6">
-              Get answers structured for the exam: definition, constitutional basis, landmark case laws, and a Mains-ready conclusion. Every answer stays strictly within the UPSC syllabus.
-            </p>
+            <div className="space-y-3 text-[14px] sm:text-[15px] text-[#5C5548] leading-relaxed max-w-sm mb-6">
+              <p>
+                Getting an answer isn&apos;t enough. You need an explanation you can understand, connect to the syllabus, and use in preparation.
+              </p>
+              <p>
+                Ask a question, clarify the concept, explore the relevant context, and go deeper when something doesn&apos;t make sense.
+              </p>
+            </div>
+            <div className="text-xs font-semibold text-[#A9821E] italic font-serif">
+              When you get stuck, don&apos;t start another chapter. Ask.
+            </div>
           </div>
 
           {/* Right Column: Interactive Chat Snippet + Features List matching the reference image */}
@@ -27,7 +36,7 @@ export default function AIMentor() {
               <div className="flex items-start gap-2.5">
                 <span className="text-xs text-[#8C8371] mt-0.5">💬</span>
                 <div className="p-2.5 rounded-lg bg-[#EFE9DA] text-xs font-medium text-[#1E1B16] leading-snug">
-                  Explain the concept of Basic Structure Doctrine.
+                  Explain the Basic Structure Doctrine.
                 </div>
               </div>
 
@@ -41,48 +50,68 @@ export default function AIMentor() {
                     Kesavananda Bharati v. State of Kerala (1973)
                   </p>
                   <p>
-                    Parliament can amend the Constitution under Art. 368, but cannot destroy its basic structure or core pillars: supremacy of the Constitution, rule of law, judicial review, federalism, and free elections.
+                    The Basic Structure Doctrine holds that Parliament&apos;s power to amend the Constitution under Article 368 does not extend to destroying its fundamental structure. The principle emerged from Kesavananda Bharati v. State of Kerala (1973).
                   </p>
                 </div>
               </div>
             </div>
 
             {/* 4 Feature Items */}
-            <div className="space-y-3.5 w-full sm:w-[260px]">
-              <div className="flex items-center gap-2.5">
-                <div className="w-7 h-7 rounded-lg bg-[#EFE9DA] flex items-center justify-center text-[#A9821E] shrink-0">
+            <div className="space-y-4 w-full sm:w-[280px]">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-[#EFE9DA] flex items-center justify-center text-[#A9821E] shrink-0 mt-0.5">
                   <MessageSquareText className="w-4 h-4" />
                 </div>
-                <span className="text-xs font-semibold text-[#1E1B16]">
-                  Content-aware answers
-                </span>
+                <div>
+                  <h4 className="text-xs font-bold text-[#1E1B16] uppercase tracking-wide">
+                    Content-Aware Answers
+                  </h4>
+                  <p className="text-[11px] text-[#5C5548] leading-tight">
+                    Explanations built around the question you&apos;re asking.
+                  </p>
+                </div>
               </div>
 
-              <div className="flex items-center gap-2.5">
-                <div className="w-7 h-7 rounded-lg bg-[#EFE9DA] flex items-center justify-center text-[#A9821E] shrink-0">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-[#EFE9DA] flex items-center justify-center text-[#A9821E] shrink-0 mt-0.5">
                   <FileText className="w-4 h-4" />
                 </div>
-                <span className="text-xs font-semibold text-[#1E1B16]">
-                  Simple and structured explanations
-                </span>
+                <div>
+                  <h4 className="text-xs font-bold text-[#1E1B16] uppercase tracking-wide">
+                    Structured Explanations
+                  </h4>
+                  <p className="text-[11px] text-[#5C5548] leading-tight">
+                    Start with the core idea, then go deeper.
+                  </p>
+                </div>
               </div>
 
-              <div className="flex items-center gap-2.5">
-                <div className="w-7 h-7 rounded-lg bg-[#EFE9DA] flex items-center justify-center text-[#A9821E] shrink-0">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-[#EFE9DA] flex items-center justify-center text-[#A9821E] shrink-0 mt-0.5">
                   <ImageIcon className="w-4 h-4" />
                 </div>
-                <span className="text-xs font-semibold text-[#1E1B16]">
-                  Examples and diagrams where relevant
-                </span>
+                <div>
+                  <h4 className="text-xs font-bold text-[#1E1B16] uppercase tracking-wide">
+                    Relevant Examples
+                  </h4>
+                  <p className="text-[11px] text-[#5C5548] leading-tight">
+                    Make difficult concepts easier to understand.
+                  </p>
+                </div>
               </div>
 
-              <div className="flex items-center gap-2.5">
-                <div className="w-7 h-7 rounded-lg bg-[#EFE9DA] flex items-center justify-center text-[#A9821E] shrink-0">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-[#EFE9DA] flex items-center justify-center text-[#A9821E] shrink-0 mt-0.5">
                   <ShieldCheck className="w-4 h-4 text-[#A9821E]" />
                 </div>
-                <span className="text-xs font-semibold text-[#1E1B16]">
-                  Always aligned with the UPSC syllabus
-                </span>
+                <div>
+                  <h4 className="text-xs font-bold text-[#1E1B16] uppercase tracking-wide">
+                    UPSC-Focused Context
+                  </h4>
+                  <p className="text-[11px] text-[#5C5548] leading-tight">
+                    Keep learning connected to the exam.
+                  </p>
+                </div>
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Journeys from "@/components/Journeys";
+import TheProblem from "@/components/TheProblem";
 import StudyPlan from "@/components/StudyPlan";
 import Subjects from "@/components/Subjects";
 import Adaptive from "@/components/Adaptive";
@@ -31,6 +32,10 @@ export default function Home() {
 
       <div id="journeys" className="relative lg:sticky lg:top-0 z-20 w-full min-h-0 lg:min-h-screen shadow-2xl bg-[#F5F1E8] flex items-center justify-center">
         <Journeys />
+      </div>
+
+      <div id="problem" className="relative lg:sticky lg:top-0 z-25 w-full min-h-0 lg:min-h-screen shadow-2xl bg-[#FAF8F2] flex items-center justify-center">
+        <TheProblem />
       </div>
 
       <div className="relative lg:sticky lg:top-0 z-30 w-full min-h-0 lg:min-h-screen shadow-2xl bg-[#121016] flex items-center justify-center">

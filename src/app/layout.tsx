@@ -135,34 +135,74 @@ const jsonLd = {
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "Is Adhitam AI good for UPSC self-study?",
+          "name": "How does Adhitam AI decide what I should study each day?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. Adhitam AI is engineered specifically for self-directed aspirants who need structure. It eliminates planning fatigue by breaking down the standard UPSC syllabus into daily missions, targeted revisions, and syllabus-linked practice."
+            "text": "Adhitam uses the preparation details you provide, such as your attempt year, available study time and optional subject, to organize your study into daily missions. The goal is to give you a clear next step instead of making you decide what to study every day."
           }
         },
         {
           "@type": "Question",
-          "name": "Can I prepare for UPSC while working?",
+          "name": "Is Adhitam AI useful if I am preparing without coaching?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Absolutely. You can set your available daily study hours, and Adhitam AI dynamically prioritizes high-yield topics and revision due today, ensuring your limited study time is spent with maximum retention and zero guesswork."
+            "text": "Yes. Adhitam is designed as a preparation companion for self-directed study, helping organize study, revision and practice around the UPSC syllabus. It can also sit alongside books, classes or other resources you already use."
           }
         },
         {
           "@type": "Question",
-          "name": "Does Adhitam AI cover both Prelims and Mains?",
+          "name": "Can I use Adhitam AI with my existing books or coaching?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. The curriculum covers General Studies across Prelims (GS Paper I & CSAT) and Mains (GS Papers I–IV, Essay, and Ethics), linking static textbook concepts directly with answer writing and PYQ practice."
+            "text": "Yes. Adhitam does not require you to replace every resource you already use. It can serve as the system that helps you organize what you're learning, what needs revision and where you need more practice."
           }
         },
         {
           "@type": "Question",
-          "name": "How does spaced repetition help in UPSC?",
+          "name": "How does the revision system work?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The UPSC syllabus is vast, and aspirants often forget older topics. Spaced repetition models your retention curve and schedules timely review of previously covered topics before they fade from memory, converting short-term recall into lasting exam-day mastery."
+            "text": "Adhitam brings topics back into your preparation at planned intervals and uses your practice history to identify areas that need more attention. The purpose is to make revision deliberate rather than something you keep postponing."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Adhitam AI cover both UPSC Prelims and Mains?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The app includes separate preparation experiences for Prelims and Mains, including practice, PYQs, tests and Mains-oriented writing workflows."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I prepare for UPSC while studying or working?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Adhitam is designed around available study time rather than assuming every aspirant can follow the same timetable. You can plan around your daily schedule and build preparation progressively."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How can the AI Mentor help with UPSC preparation?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can use the AI Mentor to clarify concepts and questions while studying. The aim is to provide structured explanations connected to UPSC preparation rather than generic conversational answers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Adhitam AI include previous year questions and mock tests?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The Prelims experience includes PYQ practice, topic-wise practice and mock-test workflows designed to help you move from learning concepts to testing them."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Adhitam AI help with Mains answer writing?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Adhitam includes Mains answer-writing practice with workflows focused on structure, content and presentation."
           }
         },
         {
@@ -170,7 +210,7 @@ const jsonLd = {
           "name": "Is Adhitam AI free?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes, you can download Adhitam AI and start using the core study planner, daily missions, and syllabus progress tracking. There are no intrusive third-party banner ads."
+            "text": "Adhitam AI's current access and pricing details are provided in the app/store listing. Check the latest information before getting started."
           }
         }
       ]

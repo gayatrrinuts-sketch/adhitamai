@@ -4,22 +4,26 @@ const personas = [
   {
     icon: GraduationCap,
     title: "College Students",
-    description: "Build strong foundations early with a structured approach.",
+    description:
+      "Build your foundation without letting preparation get lost between classes, assignments and everything else.",
   },
   {
     icon: Briefcase,
     title: "Working Professionals",
-    description: "Flexible plans that fit your schedule.",
+    description:
+      "Make limited hours count with a study routine that fits around your day.",
   },
   {
     icon: User,
     title: "First-time Aspirants",
-    description: "Step-by-step guidance with clarity.",
+    description:
+      "Start with clarity instead of trying to figure out the entire syllabus at once.",
   },
   {
     icon: BookOpen,
     title: "Self Learners",
-    description: "Curated resources and disciplined practice.",
+    description:
+      "Bring study, revision and practice into one disciplined system.",
   },
 ];
 
@@ -34,12 +38,11 @@ export default function Journeys() {
               FOR EVERY ASPIRANT
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-[42px] font-semibold tracking-tight text-[#1E1B16] leading-[1.15] mb-4">
-              Built for different <br />
-              journeys, with <br />
-              one purpose.
+              Different starting points. <br />
+              One clear way forward.
             </h2>
             <p className="text-[14px] text-[#5C5548] leading-relaxed max-w-sm">
-              Whether you are in college, working, or a first-time aspirant, Adhitam AI adapts to your background, time, and goals.
+              Whether you&apos;re beginning your first serious attempt, balancing preparation with college or work, or trying to bring structure back to an existing routine, Adhitam AI helps you work from where you are.
             </p>
           </div>
 
@@ -80,7 +83,7 @@ export default function Journeys() {
                 Personalised Daily Missions
               </h4>
               <p className="text-xs text-[#5C5548] leading-relaxed">
-                Input your attempt year, daily available hours, and optional subject. Adhitam AI balances fresh topics, revision cycles, and PYQs automatically.
+                Tell Adhitam your attempt year, available time, and optional subject. Preparation is organized into clear daily missions of study, revision, and practice.
               </p>
             </div>
           </div>

@@ -24,8 +24,13 @@ export default function Hero() {
         {/* Left Column: Headline and Copy */}
         <div className="lg:col-span-7 flex flex-col items-start text-left">
           {/* Eyebrow */}
-          <div className="mb-4 text-[11px] uppercase tracking-[0.25em] font-semibold text-[#D8BE6E]">
+          <div className="mb-3 text-[11px] uppercase tracking-[0.25em] font-semibold text-[#D8BE6E]">
             DISCIPLINE &bull; DEPTH &bull; DIRECTION
+          </div>
+
+          {/* Hinglish Editorial Hook */}
+          <div className="mb-3 text-[13px] sm:text-[14px] font-medium text-[#FAF7F2]/90 italic font-serif">
+            Syllabus bada hai. Preparation random nahi honi chahiye.
           </div>
 
           {/* Headline */}
@@ -36,14 +41,12 @@ export default function Hero() {
 
           {/* Description */}
           <p className="text-[14px] sm:text-[16px] text-[#FAF7F2]/85 max-w-lg leading-relaxed mb-6 font-normal drop-shadow-sm">
-            Adhitam AI is a UPSC Civil Services prep companion that plans your day, tracks what you&apos;re forgetting, and evaluates your Mains answers. Built around the real syllabus, not generic content.
+            Adhitam AI is a UPSC Civil Services prep companion that helps you decide what to study, what to revise, and what to practice next — around the real UPSC syllabus.
           </p>
 
-          {/* Value Micro-Points */}
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-7 text-xs font-semibold text-[#D8BE6E]">
-            <span>• Daily missions</span>
-            <span>• Spaced revision</span>
-            <span>• Prelims &amp; Mains practice</span>
+          {/* How It Works Supporting Line */}
+          <div className="mb-7 text-xs font-semibold text-[#D8BE6E]">
+            Daily missions. Spaced revision. Prelims &amp; Mains practice. One place to prepare.
           </div>
 
           {/* Buttons Row */}
@@ -53,13 +56,13 @@ export default function Hero() {
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-[#C9A227] text-[#121016] text-xs font-bold tracking-wide shadow-md hover:bg-[#D8BE6E] active:scale-95 transition-all"
             >
               <span>Download App</span>
-              <ArrowDown className="w-3.5 h-3.5 stroke-[2.5]" />
+              <span>&rarr;</span>
             </a>
             <a
-              href="#features"
+              href="#journeys"
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-black/30 backdrop-blur-sm border border-[#FAF7F2]/30 text-[#FAF7F2] text-xs font-semibold hover:border-[#D8BE6E] hover:text-[#D8BE6E] transition-all"
             >
-              <span>Learn More</span>
+              <span>See how it works</span>
               <ArrowDown className="w-3.5 h-3.5 stroke-[2]" />
             </a>
           </div>

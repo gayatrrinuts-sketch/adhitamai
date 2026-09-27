@@ -3,38 +3,24 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Search, ChevronDown, ArrowRight } from "lucide-react";
-import { blogPosts } from "@/lib/blogData";
+import { Search, ArrowRight } from "lucide-react";
+import { BlogPostDoc } from "@/lib/types/blog";
 import Footer from "@/components/Footer";
 
-const categories = [
-  "All",
-  "Strategy",
-  "Polity",
-  "History",
-  "Geography",
-  "Economy",
-  "Current Affairs",
-  "Ethics",
-];
+interface BlogClientProps {
+  initialArticles: BlogPostDoc[];
+}
 
-// Map each post slug to its corresponding editorial artwork image
-const imageMap: Record<string, string> = {
-  "how-to-make-the-most-of-your-first-six-months": "/assets/delhi-monument.jpg",
-  "key-topics-in-indian-polity-for-prelims-2027": "/assets/blog-books.jpg",
-  "geography-basics-a-concept-first-approach": "/assets/blog-globe.jpg",
-  "how-to-improve-your-answer-writing": "/assets/blog-notes.jpg",
-  "how-to-read-current-affairs-the-right-way": "/assets/blog-newspaper.jpg",
-  "modern-history-themes-that-keep-repeating": "/assets/hero-bg.jpg",
-  "environment-and-ecology-key-concepts-for-prelims": "/assets/blog-sprout.jpg",
-  "ethics-case-studies-how-to-approach-them": "/assets/blog-emblem.jpg",
-};
-
-export default function BlogClient() {
+export default function BlogClient({ initialArticles }: BlogClientProps) {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredPosts = blogPosts.filter((post) => {
+  const categories = [
+    "All",
+    ...Array.from(new Set(initialArticles.map((a) => a.category).filter(Boolean))),
+  ];
+
+  const filteredPosts = initialArticles.filter((post) => {
     const matchesCategory =
       selectedCategory === "All" ||
       post.category.toLowerCase() === selectedCategory.toLowerCase();
@@ -49,13 +35,13 @@ export default function BlogClient() {
     <div className="min-h-screen bg-[#F8F5EE] text-[#1E1B16] flex flex-col font-sans">
       {/* Top Banner & Header matching the reference design */}
       <div className="relative bg-[#121016] text-[#FAF7F2] overflow-hidden">
-        {/* Background Architectural Dome Twilight Panorama */}
+        {/* Background Architectural Atmosphere */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           <div
             className="absolute inset-0 bg-cover bg-center opacity-75 filter contrast-110 brightness-95"
             style={{ backgroundImage: "url('/assets/blog-hero-bg.jpg')" }}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#121016] via-[#121016]/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#121016] via-[#121016]/85 to-transparent" />
         </div>
 
         {/* Top Navbar */}
@@ -78,7 +64,7 @@ export default function BlogClient() {
               </span>
             </Link>
 
-            {/* Nav links */}
+            {/* Nav links (No link to /blog/create) */}
             <nav className="hidden md:flex items-center gap-8 text-[13.5px] font-medium text-[#5C5548]">
               <Link href="/" className="hover:text-[#1E1B16] transition-colors">
                 Home
@@ -100,8 +86,7 @@ export default function BlogClient() {
               </Link>
             </nav>
 
-            {/* Right button */}
-            <div className="hidden md:flex items-center">
+            <div className="flex items-center">
               <Link
                 href="/#download"
                 className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-[#C9A227] text-[#121016] text-[13px] font-bold tracking-wide shadow-sm hover:bg-[#D8BE6E] active:scale-95 transition-all"
@@ -113,116 +98,107 @@ export default function BlogClient() {
           </div>
         </header>
 
-        {/* Hero Section Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-24">
-          <span className="text-[11px] uppercase tracking-[0.25em] font-bold text-[#D8BE6E] block mb-3">
-            INSIGHTS FOR ASPIRANTS
-          </span>
-          <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-[#FAF7F2] mb-4">
-            Blogs
-          </h1>
-          <p className="text-base sm:text-lg text-[#FAF7F2]/80 max-w-xl leading-relaxed">
-            Thoughts, strategies, and explainers to help you prepare for UPSC with clarity and depth.
-          </p>
+        {/* Hero Section */}
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C9A227]/15 border border-[#C9A227]/40 text-[#D8BE6E] text-xs font-semibold tracking-wider uppercase mb-6 backdrop-blur-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C9A227]" />
+              <span>Adhitam AI Publications</span>
+            </div>
+            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#FAF7F2] leading-[1.1] mb-6">
+              Insights for serious UPSC aspirants.
+            </h1>
+            <p className="text-base sm:text-lg text-[#FAF7F2]/80 leading-relaxed font-normal max-w-2xl">
+              Thoughtful preparation strategies, topper case studies, and structured methodology to prepare for the Civil Services Examination with discipline, depth, and direction.
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Main Content Area */}
-      <main className="max-w-7xl mx-auto px-6 lg:px-12 py-12 flex-1 w-full">
-        {/* Search & Category Filter Bar */}
-        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-5 mb-10 pb-6 border-b border-[#E4DCC8]/80">
-          {/* Search Input Box */}
-          <div className="relative w-full lg:w-72">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8C8371]" />
+      {/* Filter and Content Area */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-12 flex-1 w-full">
+        {/* Search & Category Tabs */}
+        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-6 pb-8 border-b border-[#E4DCC8]">
+          {/* Category Tabs */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-none">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-4 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all cursor-pointer ${
+                  selectedCategory === cat
+                    ? "bg-[#1E1B16] text-[#FAF7F2] shadow-sm font-semibold"
+                    : "bg-[#EFE9DA] text-[#5C5548] hover:text-[#1E1B16] hover:bg-[#E4DCC8]"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          {/* Search Input */}
+          <div className="relative min-w-[260px]">
+            <Search className="w-4 h-4 text-[#8C8371] absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Search articles..."
+              placeholder="Search publications..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 rounded-lg bg-[#FAF8F2] border border-[#E4DCC8] text-sm text-[#1E1B16] placeholder-[#8C8371] focus:outline-none focus:border-[#C9A227] transition-all shadow-inner"
+              className="w-full pl-10 pr-4 py-2 text-xs bg-[#FAF8F2] border border-[#E4DCC8] rounded-xl text-[#1E1B16] placeholder-[#8C8371] focus:outline-none focus:border-[#C9A227] transition-all"
             />
           </div>
-
-          {/* Filter Pills */}
-          <div className="flex flex-wrap items-center gap-2">
-            {categories.map((cat) => {
-              const active = selectedCategory.toLowerCase() === cat.toLowerCase();
-              return (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                    active
-                      ? "bg-[#C9A227] text-[#121016] shadow-sm"
-                      : "bg-[#FAF8F2] border border-[#E4DCC8] text-[#5C5548] hover:border-[#C9A227] hover:text-[#1E1B16]"
-                  }`}
-                >
-                  {cat}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Sort Dropdown */}
-          {/* <div className="flex items-center gap-2 text-xs font-medium text-[#5C5548] self-end lg:self-auto">
-            <span>Sort by</span>
-            <div className="px-3 py-1.5 rounded-lg bg-[#FAF8F2] border border-[#E4DCC8] flex items-center gap-2 cursor-pointer font-semibold text-[#1E1B16]">
-              <span>Latest</span>
-              <ChevronDown className="w-3 h-3 text-[#8C8371]" />
-            </div>
-          </div> */}
         </div>
 
-        {/* 8 Blog Cards Grid matching the screenshot with links to /blog/[slug] */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filteredPosts.map((post) => {
-            const cardImg = imageMap[post.slug] || "/assets/delhi-monument.jpg";
-            return (
+        {/* Article Cards Grid */}
+        <div className="py-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {Array.from(new Map(filteredPosts.map((p) => [p.slug, p])).values()).map((post, postIndex) => (
               <Link
-                key={post.slug}
+                key={`${post.slug}-${postIndex}`}
                 href={`/blog/${post.slug}`}
-                className="rounded-2xl bg-[#FAF8F2] border border-[#E4DCC8] overflow-hidden flex flex-col justify-between hover:shadow-lg hover:-translate-y-1 transition-all duration-200 group"
+                className="group flex flex-col justify-between p-7 sm:p-9 rounded-2xl bg-[#FBF8F2] border border-[#E4DCC8] hover:border-[#C9A227] hover:shadow-lg transition-all duration-300 relative overflow-hidden"
               >
                 <div>
-                  {/* Thumbnail Image */}
-                  <div className="relative w-full aspect-[16/10] overflow-hidden bg-[#EFE9DA]">
-                    <Image
-                      src={cardImg}
-                      alt={post.title}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-
-                  {/* Card Body */}
-                  <div className="p-5">
-                    <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#A9821E] block mb-2">
+                  <div className="flex items-center justify-between gap-2 mb-4">
+                    <span className="inline-block px-3 py-1 rounded-full bg-[#EFE9DA] border border-[#E4DCC8] text-[11px] font-semibold text-[#8C6D1F] uppercase tracking-wider">
                       {post.category}
                     </span>
-                    <h3 className="font-serif text-lg font-bold text-[#1E1B16] leading-snug mb-2 group-hover:text-[#A9821E] transition-colors">
-                      {post.title}
-                    </h3>
-                    <p className="text-xs text-[#5C5548] leading-relaxed line-clamp-2">
-                      {post.description}
-                    </p>
+                    <span className="text-xs font-mono text-[#8C8371]">
+                      {post.readTime}
+                    </span>
                   </div>
+
+                  <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#1E1B16] leading-snug group-hover:text-[#A9821E] transition-colors mb-3">
+                    {post.title}
+                  </h2>
+
+                  <p className="text-sm text-[#5C5548] leading-relaxed line-clamp-3 mb-6">
+                    {post.description}
+                  </p>
                 </div>
 
-                {/* Card Footer: Date, Read Time, and Arrow Button */}
-                <div className="px-5 pb-5 pt-2 flex items-center justify-between border-t border-[#E4DCC8]/60 text-[11px] text-[#8C8371]">
-                  <span>
-                    {post.date} &bull; {post.readTime}
+                <div className="pt-5 border-t border-[#E4DCC8] flex items-center justify-between text-xs text-[#8C8371]">
+                  <span className="font-mono text-[11px]">
+                    {post.publishedAt || "UPSC Publication"}
                   </span>
-                  <div className="w-7 h-7 rounded-full border border-[#DCD2B8] flex items-center justify-center text-[#5C5548] group-hover:border-[#C9A227] group-hover:text-[#A9821E] transition-colors">
-                    <ArrowRight className="w-3.5 h-3.5 stroke-[2]" />
-                  </div>
+                  <span className="inline-flex items-center gap-1.5 font-semibold text-[#1E1B16] group-hover:text-[#C9A227] transition-colors">
+                    <span>Read Article</span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  </span>
                 </div>
               </Link>
-            );
-          })}
+            ))}
+          </div>
+
+          {filteredPosts.length === 0 && (
+            <div className="text-center py-20">
+              <p className="text-[#8C8371] text-sm">
+                No publications found matching your search or category filter.
+              </p>
+            </div>
+          )}
         </div>
-      </main>
+      </div>
 
       <Footer />
     </div>

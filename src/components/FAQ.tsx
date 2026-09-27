@@ -5,24 +5,44 @@ import { Plus, Minus } from "lucide-react";
 
 const faqs = [
   {
-    q: "Is Adhitam AI good for UPSC self-study?",
-    a: "Yes. Adhitam AI is engineered specifically for self-directed aspirants who need structure. It eliminates planning fatigue by breaking down the standard UPSC syllabus into daily missions, targeted revisions, and syllabus-linked practice.",
+    q: "How does Adhitam AI decide what I should study each day?",
+    a: "Adhitam uses the preparation details you provide, such as your attempt year, available study time and optional subject, to organize your study into daily missions. The goal is to give you a clear next step instead of making you decide what to study every day.",
   },
   {
-    q: "Can I prepare for UPSC while working?",
-    a: "Absolutely. You can set your available daily study hours, and Adhitam AI dynamically prioritizes high-yield topics and revision due today, ensuring your limited study time is spent with maximum retention and zero guesswork.",
+    q: "Is Adhitam AI useful if I am preparing without coaching?",
+    a: "Yes. Adhitam is designed as a preparation companion for self-directed study, helping organize study, revision and practice around the UPSC syllabus. It can also sit alongside books, classes or other resources you already use.",
   },
   {
-    q: "Does Adhitam AI cover both Prelims and Mains?",
-    a: "Yes. The curriculum covers General Studies across Prelims (GS Paper I & CSAT) and Mains (GS Papers I–IV, Essay, and Ethics), linking static textbook concepts directly with answer writing and PYQ practice.",
+    q: "Can I use Adhitam AI with my existing books or coaching?",
+    a: "Yes. Adhitam does not require you to replace every resource you already use. It can serve as the system that helps you organize what you're learning, what needs revision and where you need more practice.",
   },
   {
-    q: "How does spaced repetition help in UPSC?",
-    a: "The UPSC syllabus is vast, and aspirants often forget older topics. Spaced repetition models your retention curve and schedules timely review of previously covered topics before they fade from memory, converting short-term recall into lasting exam-day mastery.",
+    q: "How does the revision system work?",
+    a: "Adhitam brings topics back into your preparation at planned intervals and uses your practice history to identify areas that need more attention. The purpose is to make revision deliberate rather than something you keep postponing.",
+  },
+  {
+    q: "Does Adhitam AI cover both UPSC Prelims and Mains?",
+    a: "Yes. The app includes separate preparation experiences for Prelims and Mains, including practice, PYQs, tests and Mains-oriented writing workflows.",
+  },
+  {
+    q: "Can I prepare for UPSC while studying or working?",
+    a: "Adhitam is designed around available study time rather than assuming every aspirant can follow the same timetable. You can plan around your daily schedule and build preparation progressively.",
+  },
+  {
+    q: "How can the AI Mentor help with UPSC preparation?",
+    a: "You can use the AI Mentor to clarify concepts and questions while studying. The aim is to provide structured explanations connected to UPSC preparation rather than generic conversational answers.",
+  },
+  {
+    q: "Does Adhitam AI include previous year questions and mock tests?",
+    a: "The Prelims experience includes PYQ practice, topic-wise practice and mock-test workflows designed to help you move from learning concepts to testing them.",
+  },
+  {
+    q: "Does Adhitam AI help with Mains answer writing?",
+    a: "Adhitam includes Mains answer-writing practice with workflows focused on structure, content and presentation.",
   },
   {
     q: "Is Adhitam AI free?",
-    a: "Yes, you can download Adhitam AI and start using the core study planner, daily missions, and syllabus progress tracking. There are no intrusive third-party banner ads.",
+    a: "Adhitam AI's current access and pricing details are provided in the app/store listing. Check the latest information before getting started.",
   },
 ];
 

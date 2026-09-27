@@ -12,16 +12,16 @@ export default function Mains() {
               UPSC MAINS ANSWER WRITING
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-[42px] font-semibold tracking-tight text-[#1E1B16] leading-[1.15] mb-4">
-              Write. Get evaluated. <br />
+              Write. Review. <br />
               Improve.
             </h2>
             <p className="text-[14px] sm:text-[15.5px] text-[#5C5548] leading-relaxed mb-6 max-w-md">
-              Practice Mains answers within word limits and get feedback on structure, content, and presentation. Built around the real syllabus and GS paper expectations.
+              Knowing the answer and writing the answer are different skills. Practice within the limits of the exam, review how you structure your thoughts, and improve with every attempt.
             </p>
 
             {/* 3 Feedback Dimensions */}
             <div className="space-y-3.5 w-full max-w-sm mb-6">
-              <div className="flex items-center gap-3 p-3 rounded-xl bg-[#EFE9DA]/60 border border-[#DCD2B8]">
+              <div className="flex items-center gap-3 p-3.5 rounded-xl bg-[#EFE9DA]/60 border border-[#DCD2B8]">
                 <div className="w-8 h-8 rounded-lg bg-[#FAF8F2] border border-[#C9A227]/40 flex items-center justify-center text-[#A9821E] shrink-0">
                   <PenTool className="w-4 h-4 stroke-[2]" />
                 </div>
@@ -30,12 +30,12 @@ export default function Mains() {
                     Structure &amp; Introduction
                   </h4>
                   <p className="text-[11px] text-[#5C5548] leading-tight">
-                    Direct thesis statements with clear question breakdown
+                    Understand the demand of the question and begin with a clear direction.
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 p-3 rounded-xl bg-[#EFE9DA]/60 border border-[#DCD2B8]">
+              <div className="flex items-center gap-3 p-3.5 rounded-xl bg-[#EFE9DA]/60 border border-[#DCD2B8]">
                 <div className="w-8 h-8 rounded-lg bg-[#FAF8F2] border border-[#C9A227]/40 flex items-center justify-center text-[#A9821E] shrink-0">
                   <Layers className="w-4 h-4 stroke-[2]" />
                 </div>
@@ -44,12 +44,12 @@ export default function Mains() {
                     Multi-Dimensional Body
                   </h4>
                   <p className="text-[11px] text-[#5C5548] leading-tight">
-                    Constitutional, economic, and policy linkages
+                    Build arguments across relevant constitutional, social, economic and policy dimensions.
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 p-3 rounded-xl bg-[#EFE9DA]/60 border border-[#DCD2B8]">
+              <div className="flex items-center gap-3 p-3.5 rounded-xl bg-[#EFE9DA]/60 border border-[#DCD2B8]">
                 <div className="w-8 h-8 rounded-lg bg-[#FAF8F2] border border-[#C9A227]/40 flex items-center justify-center text-[#A9821E] shrink-0">
                   <FileCheck className="w-4 h-4 stroke-[2]" />
                 </div>
@@ -58,7 +58,7 @@ export default function Mains() {
                     Actionable Conclusion
                   </h4>
                   <p className="text-[11px] text-[#5C5548] leading-tight">
-                    Way forward and committee recommendations
+                    End with a practical way forward rather than simply repeating the argument.
                   </p>
                 </div>
               </div>
