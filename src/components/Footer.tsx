@@ -72,8 +72,24 @@ export default function Footer() {
             {/* Social Icon Pills */}
             <div className="flex flex-wrap items-center gap-2.5">
               {activeSocials.map((social) => {
-                const isYouTube = social.platform === "YouTube";
-                const isLinkedIn = social.platform === "LinkedIn";
+                const getHoverStyle = (platform: string) => {
+                  switch (platform) {
+                    case "LinkedIn":
+                      return "hover:border-[#0A66C2] hover:bg-[#0A66C2]/15 text-[#FAF7F2]";
+                    case "YouTube":
+                      return "hover:border-[#FF0000] hover:bg-[#FF0000]/15 text-[#FAF7F2]";
+                    case "X":
+                      return "hover:border-[#FAF7F2]/60 hover:bg-[#FAF7F2]/10 text-[#FAF7F2]";
+                    case "Instagram":
+                      return "hover:border-[#E4405F] hover:bg-[#E4405F]/15 text-[#FAF7F2]";
+                    case "Facebook":
+                      return "hover:border-[#1877F2] hover:bg-[#1877F2]/15 text-[#FAF7F2]";
+                    case "Threads":
+                      return "hover:border-[#FAF7F2]/60 hover:bg-[#FAF7F2]/10 text-[#FAF7F2]";
+                    default:
+                      return "hover:border-[#C9A227] hover:bg-[#C9A227]/10 text-[#FAF7F2]";
+                  }
+                };
 
                 return (
                   <a
@@ -82,17 +98,12 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.ariaLabel}
-                    className={`inline-flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-[#1E1B24] border border-[#2D2838] text-xs text-[#FAF7F2] transition-all group ${
-                      isLinkedIn
-                        ? "hover:border-[#0A66C2] hover:bg-[#0A66C2]/10"
-                        : "hover:border-[#FF0000] hover:bg-[#FF0000]/10"
-                    }`}
+                    className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#1E1B24] border border-[#2D2838] text-xs transition-all group ${getHoverStyle(
+                      social.platform
+                    )}`}
                   >
-                    {isLinkedIn && (
-                      <svg
-                        className="w-4 h-4 shrink-0 transition-transform group-hover:scale-110"
-                        viewBox="0 0 24 24"
-                      >
+                    {social.platform === "LinkedIn" && (
+                      <svg className="w-3.5 h-3.5 shrink-0 transition-transform group-hover:scale-110" viewBox="0 0 24 24">
                         <rect width="24" height="24" rx="5" fill="#0A66C2" />
                         <path
                           fill="#FFFFFF"
@@ -100,13 +111,40 @@ export default function Footer() {
                         />
                       </svg>
                     )}
-                    {isYouTube && (
-                      <svg
-                        className="w-4 h-4 shrink-0 transition-transform group-hover:scale-110"
-                        viewBox="0 0 24 24"
-                      >
+                    {social.platform === "YouTube" && (
+                      <svg className="w-3.5 h-3.5 shrink-0 transition-transform group-hover:scale-110" viewBox="0 0 24 24">
                         <rect width="24" height="17" x="0" y="3.5" rx="4.5" fill="#FF0000" />
                         <polygon points="9.5,8 16,12 9.5,16" fill="#FFFFFF" />
+                      </svg>
+                    )}
+                    {social.platform === "X" && (
+                      <svg className="w-3 h-3 shrink-0 transition-transform group-hover:scale-110 text-[#FAF7F2]" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                      </svg>
+                    )}
+                    {social.platform === "Instagram" && (
+                      <svg
+                        className="w-3.5 h-3.5 shrink-0 transition-transform group-hover:scale-110 text-[#E4405F]"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                      </svg>
+                    )}
+                    {social.platform === "Facebook" && (
+                      <svg className="w-3.5 h-3.5 shrink-0 transition-transform group-hover:scale-110 text-[#1877F2]" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                      </svg>
+                    )}
+                    {social.platform === "Threads" && (
+                      <svg className="w-3.5 h-3.5 shrink-0 transition-transform group-hover:scale-110 text-[#FAF7F2]" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12.186 24C5.584 24 0 18.591 0 12.186 0 5.604 5.405 0 12.186 0 18.614 0 24 5.405 24 12.186c0 1.27-.156 2.518-.46 3.714l-.066.257-2.614-.707.065-.256a9.49 9.49 0 0 0 .36-3.008c0-5.234-4.256-9.49-9.49-9.49-5.234 0-9.49 4.256-9.49 9.49 0 5.234 4.256 9.49 9.49 9.49 2.76 0 5.334-1.2 7.064-3.292l1.988 1.666C18.665 22.42 15.545 24 12.186 24zm4.498-10.428c-.287 3.568-2.584 5.37-5.59 5.37-2.903 0-5.188-1.996-5.188-4.83 0-3.018 2.394-4.877 5.766-4.877 1.884 0 3.398.54 4.417 1.57l.08.082-.016.115c-.217 1.503-.43 2.14-.469 2.57zm-2.478-.178c.17-1.127.135-2.008-.636-2.532-.602-.41-1.478-.54-2.348-.54-2.02 0-3.328 1.054-3.328 2.593 0 1.488 1.137 2.453 2.793 2.453 1.956 0 3.344-1.144 3.519-1.974z" />
                       </svg>
                     )}
                     <span className="font-semibold text-xs tracking-wide text-[#FAF7F2]">{social.platform}</span>

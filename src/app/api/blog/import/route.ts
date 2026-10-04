@@ -11,11 +11,17 @@ export async function POST(request: Request) {
     await requireAdmin();
 
     const body = await request.json().catch(() => ({}));
-    const articles = Array.isArray(body) ? body : body.articles;
+    const articles = Array.isArray(body)
+      ? body
+      : Array.isArray(body.articles)
+      ? body.articles
+      : body && typeof body === "object" && body.title
+      ? [body]
+      : [];
 
     if (!Array.isArray(articles) || articles.length === 0) {
       return NextResponse.json(
-        { error: "Invalid import format. Expected an array of blog articles." },
+        { error: "Invalid import format. Expected an array of blog articles or a single article object with a 'title'." },
         { status: 400 }
       );
     }

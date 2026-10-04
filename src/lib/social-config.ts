@@ -1,5 +1,5 @@
 export interface SocialLink {
-  platform: "YouTube" | "LinkedIn" | "X" | "Instagram" | "Telegram";
+  platform: "LinkedIn" | "YouTube" | "X" | "Instagram" | "Facebook" | "Threads" | "Telegram";
   url: string;
   ariaLabel: string;
   active: boolean;
@@ -18,26 +18,30 @@ export const ADHITAM_SOCIAL_CONFIG: SocialLink[] = [
     ariaLabel: "Subscribe to Adhitam AI on YouTube",
     active: true,
   },
-  ...(process.env.NEXT_PUBLIC_SOCIAL_X
-    ? [
-        {
-          platform: "X" as const,
-          url: process.env.NEXT_PUBLIC_SOCIAL_X,
-          ariaLabel: "Follow Adhitam AI on X",
-          active: true,
-        },
-      ]
-    : []),
-  ...(process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM
-    ? [
-        {
-          platform: "Instagram" as const,
-          url: process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM,
-          ariaLabel: "Follow Adhitam AI on Instagram",
-          active: true,
-        },
-      ]
-    : []),
+  {
+    platform: "X",
+    url: process.env.NEXT_PUBLIC_SOCIAL_X || "https://x.com/aiadhitam",
+    ariaLabel: "Follow Adhitam AI on X",
+    active: true,
+  },
+  {
+    platform: "Instagram",
+    url: process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM || "https://www.instagram.com/adhitam.ai/",
+    ariaLabel: "Follow Adhitam AI on Instagram",
+    active: true,
+  },
+  {
+    platform: "Facebook",
+    url: process.env.NEXT_PUBLIC_SOCIAL_FACEBOOK || "https://www.facebook.com/profile.php?id=61595018791631",
+    ariaLabel: "Follow Adhitam AI on Facebook",
+    active: true,
+  },
+  {
+    platform: "Threads",
+    url: process.env.NEXT_PUBLIC_SOCIAL_THREADS || "https://www.threads.com/@adhitam.ai",
+    ariaLabel: "Follow Adhitam AI on Threads",
+    active: true,
+  },
   ...(process.env.NEXT_PUBLIC_SOCIAL_TELEGRAM
     ? [
         {

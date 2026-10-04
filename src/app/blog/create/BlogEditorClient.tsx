@@ -637,10 +637,17 @@ export default function BlogEditorClient({ initialArticles }: BlogEditorClientPr
       });
       const data = await res.json();
       if (res.ok) {
-        alert(`Successfully imported ${data.count} article(s)!`);
-        setImportModalOpen(false);
-        setImportJsonText("");
-        await refreshArticles();
+        const details = data.details || {};
+        if (data.count === 0) {
+          const errList = details.errors?.length ? `:\n- ${details.errors.join("\n- ")}` : ". Make sure each article has at least a valid 'title'.";
+          alert(`Import Notice: 0 articles were imported or updated${errList}`);
+        } else {
+          const errNotice = details.errors?.length ? `\n(Note: ${details.errors.length} article(s) were skipped due to formatting errors)` : "";
+          alert(`Success: ${details.imported || 0} new article(s) published, ${details.updated || 0} existing article(s) updated!${errNotice}`);
+          setImportModalOpen(false);
+          setImportJsonText("");
+          await refreshArticles();
+        }
       } else {
         alert(data.error || "Failed to import");
       }
@@ -868,6 +875,15 @@ export default function BlogEditorClient({ initialArticles }: BlogEditorClientPr
                 >
                   {status.toUpperCase()}
                 </span>
+                {editingArticleId && (
+                  <button
+                    type="button"
+                    onClick={handleStartNewArticle}
+                    className="ml-2 px-2.5 py-1 text-[11px] font-semibold text-[#A9821E] hover:text-[#C9A227] bg-[#EFE9DA] hover:bg-[#E4DCC8] rounded-lg transition-colors cursor-pointer"
+                  >
+                    + New Article
+                  </button>
+                )}
               </div>
 
               <div className="flex items-center gap-2.5">
@@ -2109,29 +2125,87 @@ export default function BlogEditorClient({ initialArticles }: BlogEditorClientPr
                 ✕
               </button>
             </div>
-            <p className="text-xs text-[#5C5548]">
-              Paste the exported JSON array of blog articles to restore or bulk insert.
-            </p>
+            <div className="flex items-center justify-between">
+              <p className="text-xs text-[#5C5548]">
+                Paste an article JSON object or an array of articles to publish.
+              </p>
+              <button
+                type="button"
+                onClick={() =>
+                  setImportJsonText(
+                    JSON.stringify(
+                      [
+                        {
+                          title: "New UPSC Strategy Article",
+                          slug: "new-upsc-strategy-article",
+                          description:
+                            "A comprehensive strategy and analysis for UPSC civil services preparation.",
+                          category: "Strategy",
+                          readTime: "8 min read",
+                          status: "published",
+                          tags: ["Adhitam AI", "UPSC", "IAS"],
+                          blocks: [
+                            {
+                              type: "paragraph",
+                              content:
+                                "Start with strong foundational understanding before moving to standard references.",
+                            },
+                            {
+                              type: "heading",
+                              level: 2,
+                              content: "Key Strategic Principles",
+                              anchor: "key-strategic-principles",
+                            },
+                            {
+                              type: "paragraph",
+                              content:
+                                "Consistency and answer writing are the two primary pillars of exam discipline.",
+                            },
+                          ],
+                          faqs: [
+                            {
+                              question: "How many hours should I study daily?",
+                              answer:
+                                "8 to 10 hours for full-time candidates, 4 to 5 for working professionals.",
+                            },
+                          ],
+                        },
+                      ],
+                      null,
+                      2
+                    )
+                  )
+                }
+                className="text-[11px] font-semibold text-[#A9821E] hover:text-[#C9A227] underline transition-colors cursor-pointer"
+              >
+                Insert Example Template
+              </button>
+            </div>
             <textarea
-              rows={8}
+              rows={9}
               value={importJsonText}
               onChange={(e) => setImportJsonText(e.target.value)}
-              placeholder="[ { title: '...', slug: '...', blocks: [...] } ]"
-              className="w-full bg-[#FAF8F2] border border-[#E4DCC8] rounded-xl p-3 text-xs font-mono text-[#1E1B16] focus:outline-none"
+              placeholder='[ { "title": "...", "description": "...", "blocks": [...] } ]'
+              className="w-full bg-[#FAF8F2] border border-[#E4DCC8] rounded-xl p-3 text-xs font-mono text-[#1E1B16] focus:outline-none focus:border-[#C9A227]"
             />
-            <div className="flex justify-end gap-3 pt-2">
-              <button
-                onClick={() => setImportModalOpen(false)}
-                className="px-4 py-2 text-xs text-[#5C5548] bg-[#EFE9DA] rounded-xl"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleImportSubmit}
-                className="px-4 py-2 text-xs bg-[#1E1B16] text-[#FAF7F2] rounded-xl font-medium hover:bg-[#332C24]"
-              >
-                Run Import
-              </button>
+            <div className="flex justify-between items-center gap-3 pt-2">
+              <span className="text-[11px] text-[#8C8371]">
+                💡 Tip: You can paste a single {`{ ... }`} or an array {`[ { ... } ]`}.
+              </span>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setImportModalOpen(false)}
+                  className="px-4 py-2 text-xs text-[#5C5548] bg-[#EFE9DA] hover:bg-[#E4DCC8] rounded-xl transition-colors cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleImportSubmit}
+                  className="px-5 py-2 text-xs bg-[#C9A227] text-[#121016] font-semibold hover:bg-[#D8BE6E] rounded-xl transition-all shadow-sm cursor-pointer"
+                >
+                  Publish via Import →
+                </button>
+              </div>
             </div>
           </div>
         </div>

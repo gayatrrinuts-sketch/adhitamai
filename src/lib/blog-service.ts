@@ -415,26 +415,95 @@ export async function exportAllArticles(): Promise<BlogPostDoc[]> {
 }
 
 /**
- * Imports articles array with validation
+ * Imports articles array with resilient fallback, slug auto-generation, and ID deduplication
  */
 export async function importArticles(
-  docs: BlogPostDoc[]
-): Promise<{ imported: number; updated: number }> {
+  docs: any[]
+): Promise<{ imported: number; updated: number; skipped: number; errors: string[] }> {
   await ensureDbSeeded();
   let imported = 0;
   let updated = 0;
+  let skipped = 0;
+  const errors: string[] = [];
 
-  for (const doc of docs) {
-    if (!doc.title || !doc.slug) continue;
-    const existing = await getArticleBySlug(doc.slug, true);
-    if (existing) {
-      await updateArticle(doc.slug, doc);
-      updated++;
+  for (let i = 0; i < docs.length; i++) {
+    const rawDoc = docs[i];
+    if (!rawDoc || typeof rawDoc !== "object") {
+      skipped++;
+      errors.push(`Article #${i + 1} is empty or not an object.`);
+      continue;
+    }
+
+    if (!rawDoc.title || typeof rawDoc.title !== "string" || !rawDoc.title.trim()) {
+      skipped++;
+      errors.push(`Article #${i + 1} is missing a required 'title'.`);
+      continue;
+    }
+
+    // Clone and strip any existing _id to prevent MongoDB duplicate key error
+    const doc: any = { ...rawDoc };
+    delete doc._id;
+
+    // Auto-generate slug if missing
+    if (!doc.slug || typeof doc.slug !== "string" || !doc.slug.trim()) {
+      doc.slug = generateSlug(doc.title);
     } else {
-      await createArticle(doc);
-      imported++;
+      doc.slug = generateSlug(doc.slug);
+    }
+
+    // Default status to published if not explicitly set to draft
+    doc.status = doc.status === "draft" ? "draft" : "published";
+
+    // Ensure description meets minimum validation length
+    if (!doc.description || typeof doc.description !== "string" || doc.description.trim().length < 5) {
+      doc.description = doc.title;
+    }
+
+    // Ensure category exists
+    if (!doc.category || typeof doc.category !== "string") {
+      doc.category = "Strategy";
+    }
+
+    // Ensure readTime exists
+    if (!doc.readTime || typeof doc.readTime !== "string") {
+      doc.readTime = "8 min read";
+    }
+
+    // Ensure blocks array exists
+    if (!Array.isArray(doc.blocks) || doc.blocks.length === 0) {
+      doc.blocks = [
+        {
+          type: "paragraph",
+          content: doc.introduction || doc.content || doc.description || "Article content.",
+        },
+      ];
+    }
+
+    try {
+      const existing = await getArticleBySlug(doc.slug, true);
+      if (existing) {
+        // If updating existing, preserve original _id and update
+        const updatedDoc = await updateArticle(doc.slug, doc);
+        if (updatedDoc) {
+          updated++;
+        } else {
+          skipped++;
+          errors.push(`Article #${i + 1} ('${doc.title}') could not be updated.`);
+        }
+      } else {
+        const createdDoc = await createArticle(doc);
+        if (createdDoc) {
+          imported++;
+        } else {
+          skipped++;
+          errors.push(`Article #${i + 1} ('${doc.title}') could not be created.`);
+        }
+      }
+    } catch (err: any) {
+      skipped++;
+      errors.push(`Article #${i + 1} error: ${err.message || "Unknown error"}`);
     }
   }
 
-  return { imported, updated };
+  return { imported, updated, skipped, errors };
 }
